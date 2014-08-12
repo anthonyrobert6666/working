@@ -11,10 +11,14 @@ namespace PenStore.Controllers
         //
         // GET: /Store/
         // GET: /Store/
-        public string Index()
+        public ActionResult Index()
         {
-            return "Hello from Store.Index()";
+            return View();
         }
+        //public string Index()
+        //{
+        //    return "Hello from Store.Index()";
+        //}
         //
         // GET: /Store/Browse?genre=Disco
         public string Browse(string genre)

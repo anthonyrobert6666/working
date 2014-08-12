@@ -172,6 +172,36 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css1\ie6.css" />
+    <Content Include="Content\css1\images\big1.jpg" />
+    <Content Include="Content\css1\images\big2.jpg" />
+    <Content Include="Content\css1\images\big3.jpg" />
+    <Content Include="Content\css1\images\body.gif" />
+    <Content Include="Content\css1\images\bul.gif" />
+    <Content Include="Content\css1\images\cart-link.gif" />
+    <Content Include="Content\css1\images\cat.gif" />
+    <Content Include="Content\css1\images\h2-arr.gif" />
+    <Content Include="Content\css1\images\header.gif" />
+    <Content Include="Content\css1\images\ico1.gif" />
+    <Content Include="Content\css1\images\ico2.gif" />
+    <Content Include="Content\css1\images\ico3.gif" />
+    <Content Include="Content\css1\images\ico4.gif" />
+    <Content Include="Content\css1\images\info.png" />
+    <Content Include="Content\css1\images\logo.gif" />
+    <Content Include="Content\css1\images\next.gif" />
+    <Content Include="Content\css1\images\prev.gif" />
+    <Content Include="Content\css1\images\slide1.jpg" />
+    <Content Include="Content\css1\images\small1.jpg" />
+    <Content Include="Content\css1\images\small2.jpg" />
+    <Content Include="Content\css1\images\small3.jpg" />
+    <Content Include="Content\css1\images\small4.jpg" />
+    <Content Include="Content\css1\images\small5.jpg" />
+    <Content Include="Content\css1\images\small6.jpg" />
+    <Content Include="Content\css1\images\small7.jpg" />
+    <Content Include="Content\css1\style.css" />
+    <Content Include="Scripts\js\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\js\jquery-func.js" />
+    <Content Include="Scripts\js\jquery.jcarousel.pack.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -214,10 +244,12 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Baseview.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\Shared\_LoginStore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Store\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
