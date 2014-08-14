@@ -11,9 +11,6 @@ namespace PenParadise.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;
     
     public partial class ProductType
     {
@@ -21,9 +18,10 @@ namespace PenParadise.Models
         {
             this.Categories = new HashSet<Category>();
         }
-        
+    
         public string ProducTypeID { get; set; }
         public string ProductTypeName { get; set; }
+    
         public virtual ICollection<Category> Categories { get; set; }
     }
 }

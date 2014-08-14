@@ -59,20 +59,5 @@ namespace PenParadise.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-        [Display(Name = "Full Name")]
-        public string FullName { get; set; }
-        [Display(Name = "BirthDay")]
-        [DataType(DataType.Date)]
-        public string BirthDay { get; set; }
-        [Display(Name = "Email")]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-        [Display(Name = "Address")]
-        [DataType(DataType.Text)]
-        public string Address { get; set; }
-        [Display(Name = "Phone")]
-        [DataType(DataType.PhoneNumber)]
-        public string Phone { get; set; }
-
     }
 }

@@ -17,9 +17,7 @@ namespace PenParadise.Controllers
         // GET: /ManageUser/
         public ActionResult Index()
         {
-            var User = from p in db.Users
-                        select p; 
-            return View(User);
+            return View(db.Users.ToList());
         }
 
         // GET: /ManageUser/Details/5

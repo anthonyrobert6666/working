@@ -11,9 +11,6 @@ namespace PenParadise.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;
     
     public partial class Order
     {
@@ -21,10 +18,12 @@ namespace PenParadise.Models
         {
             this.OrderDetails = new HashSet<OrderDetail>();
         }
+    
         public string OrderID { get; set; }
         public string UserNameID { get; set; }
         public string OrderDate { get; set; }
         public Nullable<int> Total { get; set; }
+    
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual User User { get; set; }
     }

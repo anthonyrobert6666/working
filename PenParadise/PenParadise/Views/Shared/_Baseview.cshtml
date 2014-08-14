@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     @Styles.Render("~/Content/css1/style.css")
-    @Scripts.Render("~/Scripts/js/jquery-1.4.1.min.js")
-    @Scripts.Render("~/Scripts/js/jquery.jcarousel.pack.js")
-    @Scripts.Render("~/Scripts/js/jquery-func.js")
+    @Scripts.Render("~/Script/js/jquery-1.4.1.min.js")
+    @Scripts.Render("~/Script/js/jquery.jcarousel.pack.js")
+    @Scripts.Render("~/Script/js/jquery.jcarousel.pack.js")
     @RenderSection("scripts", required: false)
-    @RenderSection("css", required: false)
- 
 </head>
 <body>
     <!-- Shell -->
@@ -34,7 +32,6 @@
                     <li><a href="#">My Account</a></li>
                     <li><a href="#">The Store</a></li>
                     <li><a href="#">Contact</a></li>
-                    @Html.Partial("_LoginStore")
                 </ul>
             </div>
 

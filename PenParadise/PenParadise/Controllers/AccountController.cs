@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using PenParadise.Models;
-using System.Web.Security;
+
 namespace PenParadise.Controllers
 {
     [Authorize]
@@ -41,20 +41,20 @@ namespace PenParadise.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(User model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            PenStoreEntities penstore = new PenStoreEntities();
-            bool user = penstore.Users.Any(u => u.UserName == model.UserName && u.Password == model.Password);
-            if (user)
+            if (ModelState.IsValid)
             {
-                FormsAuthentication.SetAuthCookie(model.UserName,false);
-                return RedirectToLocal(returnUrl);
-
-            }
-
-            else
-            {
-                ModelState.AddModelError("", "Invalid username or password.");
+                var user = await UserManager.FindAsync(model.UserName, model.Password);
+                if (user != null)
+                {
+                    await SignInAsync(user, model.RememberMe);
+                    return RedirectToLocal(returnUrl);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid username or password.");
+                }
             }
 
             // If we got this far, something failed, redisplay form
@@ -74,33 +74,25 @@ namespace PenParadise.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(User userInfo)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            PenStoreEntities db = new PenStoreEntities();
-            bool user = db.Users.Any(u => u.UserName == userInfo.UserName);
-            if (!user)
+            if (ModelState.IsValid)
             {
-                
-                User us = new User();
-                us.Role = "EndUser";
-                us.UserNameID = "U023";
-                us.UserName = userInfo.UserName;
-                us.Password = userInfo.Password;
-                us.FullName = userInfo.FullName;
-                us.Birthday = userInfo.Birthday;
-                us.Email = userInfo.Email;
-                us.Address = userInfo.Address;
-                us.Phone = userInfo.Phone;
+                var user = new ApplicationUser() { UserName = model.UserName };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
 
-                db.Users.Add(us);
-                db.SaveChanges();
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Error");
-            }
-            return View();
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 
         //
@@ -297,8 +289,8 @@ namespace PenParadise.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Store");
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -317,15 +309,15 @@ namespace PenParadise.Controllers
             return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
         }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing && UserManager != null)
-        //    {
-        //        UserManager.Dispose();
-        //        UserManager = null;
-        //    }
-        //    base.Dispose(disposing);
-        //}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && UserManager != null)
+            {
+                UserManager.Dispose();
+                UserManager = null;
+            }
+            base.Dispose(disposing);
+        }
 
         #region Helpers
         // Used for XSRF protection when adding external logins
@@ -380,14 +372,13 @@ namespace PenParadise.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Store");
+                return RedirectToAction("Index", "Home");
             }
         }
 
         private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
             {
             }
 
