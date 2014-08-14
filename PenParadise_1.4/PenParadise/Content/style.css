@@ -567,3 +567,7 @@ body
 	color: #339;
 	background: #cdcdee;
 }
+#logoutForm {
+margin-left:12px;
+margin-top:4px;
+}
