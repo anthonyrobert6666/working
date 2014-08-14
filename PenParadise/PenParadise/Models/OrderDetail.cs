@@ -11,15 +11,18 @@ namespace PenParadise.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
     
     public partial class OrderDetail
     {
+       
         public string OrderDetailID { get; set; }
         public string OrderID { get; set; }
         public string ProductID { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<double> UnitPrice { get; set; }
-    
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
     }

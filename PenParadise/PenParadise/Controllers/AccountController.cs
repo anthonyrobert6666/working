@@ -9,7 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using PenParadise.Models;
-
+using System.Web.Security;
+using System.Security.Cryptography;
+using System.Text;
 namespace PenParadise.Controllers
 {
     [Authorize]
@@ -41,20 +43,21 @@ namespace PenParadise.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(User model, string returnUrl)
         {
-            if (ModelState.IsValid)
+            PenStoreEntities penstore = new PenStoreEntities();
+            string haspas = GetMD5HashData(model.Password);
+            bool user = penstore.Users.Any(u => u.UserName == model.UserName && u.Password ==haspas);
+            if (user)
             {
-                var user = await UserManager.FindAsync(model.UserName, model.Password);
-                if (user != null)
-                {
-                    await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid username or password.");
-                }
+                FormsAuthentication.SetAuthCookie(model.UserName,false);
+                return RedirectToLocal(returnUrl);
+
+            }
+
+            else
+            {
+                ModelState.AddModelError("", "Invalid username or password.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -74,27 +77,57 @@ namespace PenParadise.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public ActionResult Register(Register userInfo)
         {
-            if (ModelState.IsValid)
+            PenStoreEntities db = new PenStoreEntities();
+            bool user = db.Users.Any(u => u.UserName == userInfo.UserName);
+            if (!user)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    AddErrors(result);
-                }
+                
+                User us = new User();
+                us.Role = "EndUser";
+                us.UserNameID = "U023";
+                us.UserName = userInfo.UserName;
+                String haspas= GetMD5HashData(userInfo.Password);
+                us.Password = haspas;
+                us.FullName = userInfo.FullName;
+                us.Birthday = userInfo.Birthday;
+                us.Email = userInfo.Email;
+                us.Address = userInfo.Address;
+                us.Phone = userInfo.Phone;
+
+                db.Users.Add(us);
+                db.SaveChanges();
+                FormsAuthentication.SetAuthCookie(us.UserName, false);
+                return RedirectToAction("Index","Store");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Error");
+            }
+            return View();
+        }
+        private string GetMD5HashData(string data)
+        {
+            //create new instance of md5
+            MD5 md5 = MD5.Create();
+
+            //convert the input text to array of bytes
+            byte[] hashData = md5.ComputeHash(Encoding.Default.GetBytes(data));
+
+            //create new instance of StringBuilder to save hashed data
+            StringBuilder returnValue = new StringBuilder();
+
+            //loop for each byte and add it to StringBuilder
+            for (int i = 0; i < hashData.Length; i++)
+            {
+                returnValue.Append(hashData[i].ToString());
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+            // return hexadecimal string
+            return returnValue.ToString();
 
+        }
         //
         // POST: /Account/Disassociate
         [HttpPost]
@@ -289,8 +322,8 @@ namespace PenParadise.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Store");
         }
 
         //
@@ -309,15 +342,15 @@ namespace PenParadise.Controllers
             return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && UserManager != null)
-            {
-                UserManager.Dispose();
-                UserManager = null;
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing && UserManager != null)
+        //    {
+        //        UserManager.Dispose();
+        //        UserManager = null;
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
         #region Helpers
         // Used for XSRF protection when adding external logins
@@ -372,13 +405,14 @@ namespace PenParadise.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Store");
             }
         }
 
         private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
             {
             }
 

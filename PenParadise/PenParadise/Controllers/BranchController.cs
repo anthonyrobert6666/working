@@ -10,107 +10,107 @@ using PenParadise.Models;
 
 namespace PenParadise.Controllers
 {
-    public class ManageUserController : Controller
+    public class BranchController : Controller
     {
         private PenStoreEntities db = new PenStoreEntities();
 
-        // GET: /ManageUser/
+        // GET: /Branch/
         public ActionResult Index()
         {
-            var User = from p in db.Users
-                        select p; 
-            return View(User);
+            return View(db.Branches.ToList());
         }
 
-        // GET: /ManageUser/Details/5
+        // GET: /Branch/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Branch branch = db.Branches.Find(id);
+            if (branch == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(branch);
         }
 
-        // GET: /ManageUser/Create
+        // GET: /Branch/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /ManageUser/Create
-   
+        // POST: /Branch/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="UserNameID,UserName,Password,Role,FullName,Birthday,Email,Address,Phone")] User user)
+        public ActionResult Create([Bind(Include="BranchID,BranchName")] Branch branch)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Branches.Add(branch);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(branch);
         }
 
-        // GET: /ManageUser/Edit/5
+        // GET: /Branch/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Branch branch = db.Branches.Find(id);
+            if (branch == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(branch);
         }
 
-        // POST: /ManageUser/Edit/5
-        
+        // POST: /Branch/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="UserNameID,UserName,Password,Role,FullName,Birthday,Email,Address,Phone")] User user)
+        public ActionResult Edit([Bind(Include="BranchID,BranchName")] Branch branch)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(branch).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(branch);
         }
 
-        // GET: /ManageUser/Delete/5
+        // GET: /Branch/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Branch branch = db.Branches.Find(id);
+            if (branch == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(branch);
         }
 
-        // POST: /ManageUser/Delete/5
+        // POST: /Branch/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Branch branch = db.Branches.Find(id);
+            db.Branches.Remove(branch);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
