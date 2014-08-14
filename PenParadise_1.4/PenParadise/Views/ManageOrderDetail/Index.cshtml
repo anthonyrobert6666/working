@@ -1,0 +1,55 @@
+﻿@model IEnumerable<PenParadise.Models.OrderDetail>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="gradient-style">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Order.UserNameID)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Product.CategoryID)
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Order.UserNameID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.CategoryID)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.OrderDetailID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.OrderDetailID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.OrderDetailID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

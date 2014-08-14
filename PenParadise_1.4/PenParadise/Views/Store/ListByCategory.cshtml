@@ -1,0 +1,73 @@
+﻿@model IEnumerable<PenParadise.Models.Product>
+
+@{
+    ViewBag.Title = "ListByCategory";
+    Layout = "~/Views/Shared/_Baseview.cshtml";
+}
+<div id="main">
+    <div class="cl">&nbsp;</div>
+    <!-- Content -->
+    <div id="content">
+        <div class="products">
+            <div class="cl">&nbsp;</div>
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <img src="~/Images/@Html.DisplayFor(modelItem => item.images)" alt="" />
+                        <div class="product-info">
+                            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
+                            <div class="product-desc">
+                                <h4>@Html.DisplayFor(modelItem => item.Branch.BranchName)</h4>
+                                <strong class="price">@Html.DisplayFor(modelItem => item.Price)$</strong>
+                            </div>
+                            <h4>@Html.ActionLink("View Detail", "Details", "Store", new { id = item.ProductID }, null)</h4>
+                        </div>
+                    </li>
+                }
+            </ul>
+            <div class="cl">&nbsp;</div>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div class="box search">
+            <h2>Search by <span></span></h2>
+            <div class="box-content">
+                <form action="#" method="post">
+                    <label>Keyword</label>
+                    <input type="text" class="field" />
+                    <label>Category</label>
+                    <select class="field">
+                        <option value="">-- Select Product Type --</option>
+                        <option value="">-- Pen --</option>
+                        <option value="">-- Pencil --</option>
+                        <option value="">-- Accessories --</option>
+                    </select>
+                    <div class="inline-field">
+                        <label>Price</label>
+                        <select class="field small-field">
+                            <option value="">$10</option>
+                        </select>
+                        <label>to:</label>
+                        <select class="field small-field">
+                            <option value="">$50</option>
+                        </select>
+                    </div>
+                    <input type="submit" class="search-submit" value="Search" />
+                    <p>
+                        <a href="#" class="bul">Advanced search</a><br />
+                    </p>
+                </form>
+            </div>
+        </div>
+        <div class="box categories">
+            <h2>Categories <span></span></h2>
+            <div class="box-content">
+                @{ Html.RenderAction("CategoryList"); }
+            </div>
+        </div>
+    </div>
+
+    <div class="cl">&nbsp;</div>
+</div>

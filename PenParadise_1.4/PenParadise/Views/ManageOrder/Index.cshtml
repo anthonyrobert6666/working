@@ -1,0 +1,49 @@
+﻿@model IEnumerable<PenParadise.Models.Order>
+
+@{
+    ViewBag.Title = "ORDER MANAGEMENT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="gradient-style">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.OrderID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.OrderID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.OrderID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
