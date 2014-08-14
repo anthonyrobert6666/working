@@ -416,6 +416,7 @@
     <Content Include="Views\Store\ListByCategory.cshtml" />
     <Content Include="Views\Store\Details.cshtml" />
     <Content Include="Views\Store\AllProduct.cshtml" />
+    <Content Include="Views\Account\ManageTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

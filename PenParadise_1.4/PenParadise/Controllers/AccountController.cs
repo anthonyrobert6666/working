@@ -12,11 +12,13 @@ using PenParadise.Models;
 using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
+using System.Net;
 namespace PenParadise.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        PenStoreEntities db = new PenStoreEntities();
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
@@ -48,10 +50,18 @@ namespace PenParadise.Controllers
             PenStoreEntities penstore = new PenStoreEntities();
             string haspas = GetMD5HashData(model.Password);
             bool user = penstore.Users.Any(u => u.UserName == model.UserName && u.Password ==haspas);
+            bool role = penstore.Users.Any(u => u.UserName == model.UserName && u.Role =="EndUser");
             if (user)
             {
-                FormsAuthentication.SetAuthCookie(model.UserName,false);
+                if(role)
+                {
+                Session["UserName"] = model.UserName;
                 return RedirectToLocal(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index","ManageUser");
+                }
 
             }
 
@@ -83,12 +93,12 @@ namespace PenParadise.Controllers
             bool user = db.Users.Any(u => u.UserName == userInfo.UserName);
             if (!user)
             {
-                
+
                 User us = new User();
                 us.Role = "EndUser";
-                us.UserNameID = "U023";
+                us.UserNameID = "U024";
                 us.UserName = userInfo.UserName;
-                String haspas= GetMD5HashData(userInfo.Password);
+                String haspas = GetMD5HashData(userInfo.Password);
                 us.Password = haspas;
                 us.FullName = userInfo.FullName;
                 us.Birthday = userInfo.Birthday;
@@ -99,7 +109,7 @@ namespace PenParadise.Controllers
                 db.Users.Add(us);
                 db.SaveChanges();
                 FormsAuthentication.SetAuthCookie(us.UserName, false);
-                return RedirectToAction("Index","Store");
+                return RedirectToAction("Index", "Store");
             }
             else
             {
@@ -149,69 +159,82 @@ namespace PenParadise.Controllers
 
         //
         // GET: /Account/Manage
-        public ActionResult Manage(ManageMessageId? message)
+        public ActionResult Manage(string id)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
-            ViewBag.HasLocalPassword = HasPassword();
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            User user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
         }
-
+        public ActionResult ManageTest(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            User user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
         //
         // POST: /Account/Manage
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Manage(ManageUserViewModel model)
-        {
-            bool hasPassword = HasPassword();
-            ViewBag.HasLocalPassword = hasPassword;
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            if (hasPassword)
-            {
-                if (ModelState.IsValid)
-                {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
-            }
-            else
-            {
-                // User does not have a password so remove any validation errors caused by a missing OldPassword field
-                ModelState state = ModelState["OldPassword"];
-                if (state != null)
-                {
-                    state.Errors.Clear();
-                }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Manage(ManageUserViewModel model)
+        //{
+        //    bool hasPassword = HasPassword();
+        //    ViewBag.HasLocalPassword = hasPassword;
+        //    ViewBag.ReturnUrl = Url.Action("Manage");
+        //    if (hasPassword)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+        //            }
+        //            else
+        //            {
+        //                AddErrors(result);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // User does not have a password so remove any validation errors caused by a missing OldPassword field
+        //        ModelState state = ModelState["OldPassword"];
+        //        if (state != null)
+        //        {
+        //            state.Errors.Clear();
+        //        }
 
-                if (ModelState.IsValid)
-                {
-                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
-            }
+        //        if (ModelState.IsValid)
+        //        {
+        //            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+        //            }
+        //            else
+        //            {
+        //                AddErrors(result);
+        //            }
+        //        }
+        //    }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
 
         //
         // POST: /Account/ExternalLogin
@@ -318,11 +341,9 @@ namespace PenParadise.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            FormsAuthentication.SignOut();
+            Session.RemoveAll();
             return RedirectToAction("Index", "Store");
         }
 
@@ -334,13 +355,13 @@ namespace PenParadise.Controllers
             return View();
         }
 
-        [ChildActionOnly]
-        public ActionResult RemoveAccountList()
-        {
-            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
-            ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
-            return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
-        }
+        //[ChildActionOnly]
+        //public ActionResult RemoveAccountList()
+        //{
+        //    var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
+        //    ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
+        //    return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
+        //}
 
         //protected override void Dispose(bool disposing)
         //{
@@ -379,15 +400,15 @@ namespace PenParadise.Controllers
             }
         }
 
-        private bool HasPassword()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PasswordHash != null;
-            }
-            return false;
-        }
+        //private bool HasPassword()
+        //{
+        //    var user = UserManager.FindById(User.Identity.GetUserId());
+        //    if (user != null)
+        //    {
+        //        return user.PasswordHash != null;
+        //    }
+        //    return false;
+        //}
 
         public enum ManageMessageId
         {

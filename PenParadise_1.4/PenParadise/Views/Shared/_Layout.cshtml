@@ -34,6 +34,7 @@
                     <li>@Html.ActionLink("Category", "Index", "ManageCategory")</li>
                     <li>@Html.ActionLink("Product Type", "Index", "ManageProductType")</li>
                     <li>@Html.ActionLink("Branch", "Index", "Branch")</li>
+                    @Html.Partial("_LoginStore")
                 </ul>
             </div>
         </div>
@@ -50,4 +51,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
+
 </html>
+
