@@ -11,6 +11,9 @@ namespace PenParadise.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
     
     public partial class Branch
     {
@@ -18,10 +21,9 @@ namespace PenParadise.Models
         {
             this.Products = new HashSet<Product>();
         }
-    
+       
         public string BranchID { get; set; }
         public string BranchName { get; set; }
-    
         public virtual ICollection<Product> Products { get; set; }
     }
 }

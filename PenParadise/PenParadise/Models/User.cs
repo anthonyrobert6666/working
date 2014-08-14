@@ -11,6 +11,9 @@ namespace PenParadise.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
     
     public partial class User
     {
@@ -18,7 +21,6 @@ namespace PenParadise.Models
         {
             this.Orders = new HashSet<Order>();
         }
-    
         public string UserNameID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -28,7 +30,7 @@ namespace PenParadise.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-    
         public virtual ICollection<Order> Orders { get; set; }
     }
+   
 }

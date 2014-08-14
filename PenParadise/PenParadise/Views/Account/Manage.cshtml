@@ -1,10 +1,12 @@
-﻿@using PenParadise.Models;
+﻿@{
+    Layout = "~/Views/Shared/_Baseview.cshtml";
+}
+@using PenParadise.Models;
 @using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Manage Account";
 }
-
-<h2>@ViewBag.Title.</h2>
+@Styles.Render("~/Content/css")
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div class="row">
@@ -18,12 +20,11 @@
             @Html.Partial("_SetPasswordPartial")
         }
 
-        <section id="externalLogins">
-            @Html.Action("RemoveAccountList")
-            @Html.Partial("_ExternalLoginsListPartial", new { Action = "LinkLogin", ReturnUrl = ViewBag.ReturnUrl })
-        </section>
     </div>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+}
+@section css {
+    @Styles.Render("~/Content/css1/login.css")
 }
