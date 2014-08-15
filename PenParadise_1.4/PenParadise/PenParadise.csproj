@@ -162,6 +162,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageCategoryController.cs" />
     <Compile Include="Controllers\ManageOrderController.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Models\Review.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Shipping_Information.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
@@ -425,6 +427,9 @@
     <Content Include="Views\Store\AllProduct.cshtml" />
     <Content Include="Views\Account\ManageTest.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\Checkout\AddressAndPayment.cshtml" />
+    <Content Include="Views\Checkout\Complete.cshtml" />
+    <Content Include="Views\Checkout\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

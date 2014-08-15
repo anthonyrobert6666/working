@@ -46,8 +46,10 @@
           </Key>
           <Property Name="OrderID" Type="char" MaxLength="4" Nullable="false" />
           <Property Name="UserNameID" Type="char" MaxLength="4" />
-          <Property Name="OrderDate" Type="varchar" MaxLength="50" />
-          <Property Name="Total" Type="int" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="DeliveryAddress" Type="varchar" MaxLength="255" />
+          <Property Name="PhoneContact" Type="varchar" MaxLength="20" />
+          <Property Name="Total" Type="float" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -283,10 +285,12 @@
           </Key>
           <Property Name="OrderID" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="UserNameID" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
-          <Property Name="OrderDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Total" Type="Int32" />
+          <Property Name="OrderDate" Type="DateTime" />
+          <Property Name="Total" Type="Double" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Orders" ToRole="OrderDetail" />
           <NavigationProperty Name="User" Relationship="Self.FK_Orders_Customer" FromRole="Orders" ToRole="Users" />
+          <Property Name="DeliveryAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneContact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -538,6 +542,8 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="PenStoreModel.Order">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="PhoneContact" ColumnName="PhoneContact" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="UserNameID" ColumnName="UserNameID" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />

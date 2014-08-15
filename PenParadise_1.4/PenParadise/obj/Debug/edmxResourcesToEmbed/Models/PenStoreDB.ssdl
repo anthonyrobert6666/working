@@ -41,8 +41,10 @@
     </Key>
     <Property Name="OrderID" Type="char" MaxLength="4" Nullable="false" />
     <Property Name="UserNameID" Type="char" MaxLength="4" />
-    <Property Name="OrderDate" Type="varchar" MaxLength="50" />
-    <Property Name="Total" Type="int" />
+    <Property Name="OrderDate" Type="datetime" />
+    <Property Name="DeliveryAddress" Type="varchar" MaxLength="255" />
+    <Property Name="PhoneContact" Type="varchar" MaxLength="20" />
+    <Property Name="Total" Type="float" />
   </EntityType>
   <EntityType Name="Product">
     <Key>

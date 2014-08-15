@@ -32,6 +32,8 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="PenStoreModel.Order">
         <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="PhoneContact" ColumnName="PhoneContact" />
+          <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
           <ScalarProperty Name="OrderID" ColumnName="OrderID" />
           <ScalarProperty Name="UserNameID" ColumnName="UserNameID" />
           <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />

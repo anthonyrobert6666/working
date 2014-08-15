@@ -23,7 +23,8 @@ namespace PenParadise.Models
         [Required]
         [DataType(DataType.DateTime)]
         public string OrderDate { get; set; }
-
+        public string DeliveryAddress { get; set; }
+        public string PhoneContact { get; set; }
         [Required]
         public Nullable<int> Total { get; set; }
         [Required]

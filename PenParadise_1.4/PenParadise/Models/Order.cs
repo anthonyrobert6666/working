@@ -30,9 +30,13 @@ public partial class Order
 
     public string UserNameID { get; set; }
 
-    public string OrderDate { get; set; }
+    public Nullable<System.DateTime> OrderDate { get; set; }
 
-    public Nullable<int> Total { get; set; }
+    public Nullable<double> Total { get; set; }
+
+    public string DeliveryAddress { get; set; }
+
+    public string PhoneContact { get; set; }
 
 
 

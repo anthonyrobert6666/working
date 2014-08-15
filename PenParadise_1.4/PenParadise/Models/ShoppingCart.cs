@@ -121,40 +121,40 @@ namespace PenParadise.Models
             return Convert.ToDecimal(total);
         }
 
-        //public int CreateOrder(Order order)
-        //{
-        //    decimal orderTotal = 0;
+        public int CreateOrder(Order order)
+        {
+            decimal orderTotal = 0;
 
-        //    var cartItems = GetCartItems();
+            var cartItems = GetCartItems();
 
-        //    // Iterate over the items in the cart, adding the order details for each
-        //    foreach (var item in cartItems)
-        //    {
-        //        var album = _db.Products.Find(item.ProductID);
+            // Iterate over the items in the cart, adding the order details for each
+            foreach (var item in cartItems)
+            {
+                var product = _db.Products.Find(item.ProductID);
 
-        //        var orderDetail = new OrderDetail
-        //        {
-        //            ProductID = item.ProductID,
-        //            OrderID = order.OrderID,
-        //            UnitPrice = album.Price,
-        //            Quantity = item.Count,
-        //        };
+                var orderDetail = new OrderDetail
+                {
+                    ProductID = item.ProductID,
+                    OrderID = order.OrderID,
+                    UnitPrice = product.Price,
+                    Quantity = item.Count,
+                };
 
-        //        // Set the order total of the shopping cart
-        //        orderTotal += Convert.ToDecimal((item.Count * (decimal?)item.Product.Price));
+                // Set the order total of the shopping cart
+                orderTotal += Convert.ToDecimal((item.Count * (decimal?)item.Product.Price));
 
-        //        _db.OrderDetails.Add(orderDetail);
-        //    }
+                _db.OrderDetails.Add(orderDetail);
+            }
 
-        //    // Set the order's total to the orderTotal count
-        //    order.Total = Convert.ToInt32(orderTotal);
+            // Set the order's total to the orderTotal count
+            order.Total = Convert.ToInt32(orderTotal);
 
-        //    // Empty the shopping cart
-        //    EmptyCart();
+            // Empty the shopping cart
+            EmptyCart();
 
-        //    // Return the OrderId as the confirmation number
-        //    return Convert.ToInt32(order.OrderID);
-        //}
+            // Return the OrderId as the confirmation number
+            return Convert.ToInt32(order.OrderID);
+        }
 
         // We're using HttpContextBase to allow access to cookies.
         public string GetCartId(HttpContextBase context)
