@@ -15,28 +15,22 @@ namespace PenParadise.Models
 using System;
     using System.Collections.Generic;
     
-public partial class Category
+public partial class Cart
 {
 
-    public Category()
-    {
+    public int RecordId { get; set; }
 
-        this.Products = new HashSet<Product>();
+    public string CartId { get; set; }
 
-    }
+    public string ProductID { get; set; }
 
+    public Nullable<int> Count { get; set; }
 
-    public string CategoryID { get; set; }
-
-    public string CategoryName { get; set; }
-
-    public string ProductTypeID { get; set; }
+    public Nullable<System.DateTime> DateCreated { get; set; }
 
 
 
-    public virtual ProductType ProductType { get; set; }
-
-    public virtual ICollection<Product> Products { get; set; }
+    public virtual Product Product { get; set; }
 
 }
 

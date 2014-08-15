@@ -21,6 +21,8 @@
         <AssociationConnector Association="PenStoreModel.FK_OrderDetail_Product" ManuallyRouted="false" />
         <AssociationConnector Association="PenStoreModel.FK_Orders_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="PenStoreModel.FK_Review_Product" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PenStoreModel.Cart" Width="1.5" PointX="7.5" PointY="0.75" />
+        <AssociationConnector Association="PenStoreModel.FK_Cart_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

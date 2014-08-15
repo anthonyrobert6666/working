@@ -169,6 +169,7 @@
     <Compile Include="Controllers\ManageProductController.cs" />
     <Compile Include="Controllers\ManageProductTypeController.cs" />
     <Compile Include="Controllers\ManageUserController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -178,6 +179,9 @@
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Branch_Validate.cs" />
+    <Compile Include="Models\Cart.cs">
+      <DependentUpon>PenStoreDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Category.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
@@ -217,6 +221,7 @@
     <Compile Include="Models\Review.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
@@ -227,6 +232,8 @@
     <Compile Include="Models\User_Validate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ShoppingCartRemoveViewModel.cs" />
+    <Compile Include="ViewModels\ShoppingCartViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -417,6 +424,7 @@
     <Content Include="Views\Store\Details.cshtml" />
     <Content Include="Views\Store\AllProduct.cshtml" />
     <Content Include="Views\Account\ManageTest.cshtml" />
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

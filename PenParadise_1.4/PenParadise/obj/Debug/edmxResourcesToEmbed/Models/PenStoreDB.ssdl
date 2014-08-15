@@ -7,6 +7,16 @@
     <Property Name="BranchID" Type="char" MaxLength="4" Nullable="false" />
     <Property Name="BranchName" Type="varchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="RecordId" />
+    </Key>
+    <Property Name="RecordId" Type="int" Nullable="false" />
+    <Property Name="CartId" Type="varchar" MaxLength="50" />
+    <Property Name="ProductID" Type="char" MaxLength="4" />
+    <Property Name="Count" Type="int" />
+    <Property Name="DateCreated" Type="date" />
+  </EntityType>
   <EntityType Name="Category">
     <Key>
       <PropertyRef Name="CategoryID" />
@@ -88,6 +98,18 @@
     <Property Name="Address" Type="nvarchar" MaxLength="50" />
     <Property Name="Phone" Type="char" MaxLength="10" />
   </EntityType>
+  <Association Name="FK_Cart_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Category_ProductType">
     <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
     <End Role="Category" Type="Self.Category" Multiplicity="*" />
@@ -174,6 +196,7 @@
   </Association>
   <EntityContainer Name="PenStoreModelStoreContainer">
     <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
@@ -182,6 +205,10 @@
     <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Cart_Product" Association="Self.FK_Cart_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
     <AssociationSet Name="FK_Category_ProductType" Association="Self.FK_Category_ProductType">
       <End Role="ProductType" EntitySet="ProductType" />
       <End Role="Category" EntitySet="Category" />
