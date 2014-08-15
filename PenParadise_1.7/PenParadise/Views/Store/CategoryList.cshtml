@@ -1,0 +1,8 @@
+﻿@model IEnumerable<PenParadise.Models.Category>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@Html.ActionLink(item.CategoryName, "ListByCategory", "Store", new { id = item.CategoryID }, null)</li>
+    }
+</ul>
+

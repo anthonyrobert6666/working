@@ -1,0 +1,158 @@
+﻿@model IEnumerable<PenParadise.Models.Product>
+@{
+    Layout = "~/Views/Shared/_Baseview.cshtml";
+}
+@{
+    ViewBag.Title = "Shop Pens";
+}
+<!-- Main -->
+<div id="main">
+    <div class="cl">&nbsp;</div>
+    <!-- Content -->
+    <div id="content">
+        <!-- Content Slider -->
+        <div id="slider" class="box">
+            <div id="slider-holder">
+                <ul>
+                    <li><a href="http://www.paradisepen.com/shop-brands/visconti-pens/visconti-van-gogh-collection"><img src="~/Images/Banner/faber-castell-ondoro.jpg" /></a></li>
+                    <li><a href="http://www.paradisepen.com/shop-brands/cross-pens/cross-townsend"><img src="~/Images/Banner/visconti-van-gogh.jpg" /></a></li>
+                    <li><a href="http://www.paradisepen.com/shop-brands/montblanc/montblanc-writers-edition"><img src="~/Images/Banner/montblanc-daniel-defoe.jpg" /></a></li>
+                    <li><a href="http://www.paradisepen.com/shop-brands/faber-castell-pens/faber-castell-ondoro"><img src="~/Images/Banner/tf-est1968.jpg" /></a></li>
+                </ul>
+            </div>
+            <div id="slider-nav"> <a href="#" class="active">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> </div>
+        </div>
+        <!-- End Content Slider -->
+        <!-- Products -->
+        <div class="products">
+            <div class="cl">&nbsp;</div>
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li>                        
+                        <img src="~/Images/@Html.DisplayFor(modelItem => item.images)" alt="" />
+                        <div class="product-info">
+                            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
+                            <div class="product-desc">
+                                <h4>@Html.DisplayFor(modelItem => item.Branch.BranchName)</h4>
+                                <strong class="price">@Html.DisplayFor(modelItem => item.Price)$</strong>
+                            </div>
+                            <h4>@Html.ActionLink("View Detail", "Details", "Store", new { id = item.ProductID }, null)</h4>
+                        </div>
+                    </li>
+                }
+            </ul>
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- End Products -->
+    </div>
+    <!-- End Content -->
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <!-- Search -->
+        <div class="box search">
+            <h2>Search by <span></span></h2>
+            <div class="box-content">
+                <form action="#" method="post">
+                    <label>Keyword</label>
+                    @using (Html.BeginForm())
+                    {
+                    @Html.TextBox("SearchString")       
+                    <label>Category</label>
+                    <select class="field">
+                        <option value="">-- Select Product Type --</option>
+                        <option value="">-- Pen --</option>
+                        <option value="">-- Pencil --</option>
+                        <option value="">-- Accessories --</option>
+                    </select>
+                    <div class="inline-field">
+                        <label>Price</label>
+                        <select class="field small-field">
+                            <option value="">$10</option>
+                        </select>
+                        <label>to:</label>
+                        <select class="field small-field">
+                            <option value="">$50</option>
+                        </select>
+                    </div>
+                    <input class="search-submit" type="submit" value="Search" />
+                    }
+                    <p>
+                        <a href="#" class="bul">Advanced search</a><br />
+                    </p>
+                </form>
+            </div>
+        </div>
+        <!-- End Search -->
+        <!-- Categories -->
+        <div class="box categories">
+            <h2>Categories <span></span></h2>
+            <div class="box-content">
+                @{ Html.RenderAction("CategoryList"); }
+            </div>
+        </div>
+        <!-- End Categories -->
+    </div>
+    <!-- End Sidebar -->
+    <div class="cl">&nbsp;</div>
+</div>
+<!-- End Main -->
+<!-- Side Full -->
+<div class="side-full">
+    <!-- More Products -->
+    <div class="more-products">
+        <div class="more-products-holder">
+            <ul>
+                <li><a href="#"><img src="~/Images/Footer/a1.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/a2.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/a3.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/a4.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/a5.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b1.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b2.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b3.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b4.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b5.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/c1.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/c2.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/c3.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/c5.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/d1.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/d2.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/d3.jpg" alt="" /></a></li>
+                <li class="last"><a href="#"><img src="~/Images/Footer/c4.jpg" alt="" /></a></li>
+            </ul>
+        </div>
+        <div class="more-nav"> <a href="#" class="prev">previous</a> <a href="#" class="next">next</a> </div>
+    </div>
+    <!-- End More Products -->
+    <!-- Text Cols -->
+    <div class="cols">
+        <div class="cl">&nbsp;</div>
+        <div class="col">
+            <h3 class="ico ico1">Donec imperdiet</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet, metus ac cursus auctor, arcu felis ornare dui.</p>
+            <p class="more"><a href="#" class="bul">Lorem ipsum</a></p>
+        </div>
+        <div class="col">
+            <h3 class="ico ico2">Donec imperdiet</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet, metus ac cursus auctor, arcu felis ornare dui.</p>
+            <p class="more"><a href="#" class="bul">Lorem ipsum</a></p>
+        </div>
+        <div class="col">
+            <h3 class="ico ico3">Donec imperdiet</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet, metus ac cursus auctor, arcu felis ornare dui.</p>
+            <p class="more"><a href="#" class="bul">Lorem ipsum</a></p>
+        </div>
+        <div class="col col-last">
+            <h3 class="ico ico4">Donec imperdiet</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet, metus ac cursus auctor, arcu felis ornare dui.</p>
+            <p class="more"><a href="#" class="bul">Lorem ipsum</a></p>
+        </div>
+        <div class="cl">&nbsp;</div>
+    </div>
+    <!-- End Text Cols -->
+</div>
+<!-- End Side Full -->
+
+
