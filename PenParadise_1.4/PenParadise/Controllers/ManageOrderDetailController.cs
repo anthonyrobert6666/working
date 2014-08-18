@@ -15,11 +15,11 @@ namespace PenParadise.Controllers
         private PenStoreEntities db = new PenStoreEntities();
 
         // GET: /ManageOrderDetail/
-        public ActionResult Index()
-        {
-            var orderdetails = db.OrderDetails.Include(o => o.Order).Include(o => o.Product);
-            return View(orderdetails.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    var orderdetails = db.OrderDetails.Include(o => o.Order).Include(o => o.Product);
+        //    return View(orderdetails.ToList());
+        //}
 
         // GET: /ManageOrderDetail/Details/5
         public ActionResult Details(string id)

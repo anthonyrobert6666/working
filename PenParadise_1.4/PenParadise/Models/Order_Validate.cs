@@ -14,7 +14,6 @@ namespace PenParadise.Models
     public class Order_Validation
     {
         [Required]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "UserNameID must be 4 characters!")]
         public string OrderID { get; set; }
 
         [Required]

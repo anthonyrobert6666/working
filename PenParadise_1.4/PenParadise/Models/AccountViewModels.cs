@@ -25,6 +25,26 @@ namespace PenParadise.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 4)]
+        public string FullName { get; set; }
+
+        [Required]
+        public string Birthday { get; set; }
+
+        [Required]
+        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",
+            ErrorMessage = "Email is is not valid.")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 4)]
+        public string Address { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        //[RegularExpression(@"[0-9]", ErrorMessage = "Invalid Phone Number!")]
+        public string Phone { get; set; }
     }
 
     public class LoginViewModel

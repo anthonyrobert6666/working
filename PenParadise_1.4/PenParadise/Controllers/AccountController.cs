@@ -13,9 +13,9 @@ using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Net;
+using System.Data.Entity;
 namespace PenParadise.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         PenStoreEntities db = new PenStoreEntities();
@@ -49,19 +49,19 @@ namespace PenParadise.Controllers
         {
             PenStoreEntities penstore = new PenStoreEntities();
             string haspas = GetMD5HashData(model.Password);
-            bool user = penstore.Users.Any(u => u.UserName == model.UserName && u.Password ==haspas);
-            bool role = penstore.Users.Any(u => u.UserName == model.UserName && u.Role =="EndUser");
+            bool user = penstore.Users.Any(u => u.UserName == model.UserName && u.Password == haspas);
+            bool role = penstore.Users.Any(u => u.UserName == model.UserName && u.Role == "EndUser");
             if (user)
             {
-                if(role)
+                if (role)
                 {
-                Session["UserName"] = model.UserName;
-                return RedirectToLocal(returnUrl);
+                    Session["UserName"] = model.UserName;
+                    return RedirectToLocal(returnUrl);
                 }
                 else
                 {
                     Session["UserName"] = model.UserName;
-                    return RedirectToAction("Index","ManageUser");
+                    return RedirectToAction("Index", "ManageUser");
                 }
 
             }
@@ -106,7 +106,6 @@ namespace PenParadise.Controllers
                 us.Email = userInfo.Email;
                 us.Address = userInfo.Address;
                 us.Phone = userInfo.Phone;
-
                 db.Users.Add(us);
                 db.SaveChanges();
                 FormsAuthentication.SetAuthCookie(us.UserName, false);
@@ -134,7 +133,6 @@ namespace PenParadise.Controllers
             {
                 returnValue.Append(hashData[i].ToString());
             }
-
             // return hexadecimal string
             return returnValue.ToString();
 
@@ -159,30 +157,33 @@ namespace PenParadise.Controllers
         //}
 
         //
+        
         // GET: /Account/Manage
-        public ActionResult Manage(string id)
+        public ActionResult Manage()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id);
+            PenStoreEntities db = new PenStoreEntities();
+            string sessionname = Session["UserName"].ToString();
+
+            var userid = db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
+            User user = db.Users.Find(userid);
+
             if (user == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Login","Account");
             }
             return View(user);
         }
-        public ActionResult ManageTest(string id)
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Manage([Bind(Include = "UserNameID,UserName,Password,Role,FullName,Birthday,Email,Address,Phone")] User user)
         {
-            if (id == null)
+            user.Password=GetMD5HashData(user.Password);
+            if (ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index","Store");
             }
             return View(user);
         }

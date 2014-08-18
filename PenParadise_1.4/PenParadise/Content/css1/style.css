@@ -37,7 +37,7 @@ h1#logo a{ display:block; height:64px; text-indent: -4000px; background:url(imag
 #header { height:64px; background:url(images/header.gif); position:relative;}
 
 #navigation { float:right; white-space:nowrap; }
-#navigation ul{ list-style-type: none; height:64px; font-weight: bold; float:left;}
+#navigation ul{ list-style-type: none; height:64px; float:left}
 #navigation ul li{ float:left; display:inline; }
 #navigation ul li a{ float:left; height:64px; line-height:64px; text-decoration: none; color:#fff; padding:0 15px;}
 #navigation ul li a.active,

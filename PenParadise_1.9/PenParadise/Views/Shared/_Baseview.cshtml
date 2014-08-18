@@ -1,0 +1,55 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    @Styles.Render("~/Content/css1/style.css")
+    @Scripts.Render("~/Scripts/js/jquery-1.4.1.min.js")
+    @Scripts.Render("~/Scripts/js/jquery.jcarousel.pack.js")
+    @Scripts.Render("~/Scripts/js/jquery-func.js")
+    @RenderSection("scripts", required: false)
+    @RenderSection("css", required: false)
+    <link rel="stylesheet" href="http://use.typekit.net/c/d87c14/minion-pro:i4:i7:n4:n7.XvF:M:2,XvD:M:2,XvJ:M:2,XvC:M:2/d?3bb2a6e53c9684ffdc9a99f61b5b2a627dc13eb1b909f2c88003c849df279881270277182c51bbd8b8c72725e5b0765e2855e3efa8148808646ea4c95a4c557e550ba36c9da2f26f82f41f8e6a1bb0dbfd3a581c8eed7af556fed88a555e30280ebc7004d3bf1c2acae241b001f09d362df4171ee012e4fe3d620fe2ff4aecfd60624e2abe73e95307d1213aaff8d1aef2aa8102f3556d5b90bb3be8f69c092df62fa3ff29c6b57ffb0d51b2c6ede24f01112357613f56294b19f77f3cf75acdd13fe42d5892e33501e75687a061350bede3955f17171c93a07a04d6da046037d44a9908c83e4b228e267a2a1ca097e06a30ab3ddc05a8cdf786c0da80500d873e6cd6edc33baa842b6fc5c883a5aab6589faeacd712bb6d2ba8253166d4b5300dce39a5ce6f3889637b0db42f">
+</head>
+<body>
+    <!-- Shell -->
+    <div class="shell">
+        <!-- Header -->
+        <div id="header">
+            <h1 id="logo"> @Html.ActionLink("Pen Shop", "Index", "Store")</h1>
+            <!-- Cart -->
+            <div id="cart">
+                @Html.ActionLink("Your Shopping Cart", "Index", "ShoppingCart", null, new { @class = "cart-link" })
+                <div class="cl">&nbsp;</div>
+                <span>Articles: <strong>@{Html.RenderAction("CartNumber","ShoppingCart");}</strong></span> 
+                &nbsp;&nbsp; <span>Cost: <strong>@{Html.RenderAction("CartTotal", "ShoppingCart");}</strong></span>
+            </div>
+            <!-- End Cart -->
+            <!-- Navigation -->
+            <div id="navigation">
+                <ul>
+                    <li>@Html.ActionLink("Home", "Index", "Store")</li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">My Account</a></li>
+                    <li>@Html.ActionLink("The Store", "AllProduct", "Store")</li>
+                    <li><a href="#">Contact</a></li>
+                    @Html.Partial("_LoginStore")
+                </ul>
+            </div>
+
+            <!-- End Navigation -->
+        </div>
+        <!-- End Header -->
+        @RenderBody()
+        <!-- Footer -->
+        <div id="footer">
+            <p class="left"> <a href="#">Home</a> <span>|</span> <a href="#">Support</a> <span>|</span> <a href="#">My Account</a> <span>|</span> <a href="#">The Store</a> <span>|</span> <a href="#">Contact</a> </p>
+            <p class="right"> &copy; 2014 Shop Around. Design by <a href="#">CSC Viet Nam</a> </p>
+        </div>
+        <!-- End Footer -->
+    </div>
+    <!-- End Shell -->
+</body>
+</html>

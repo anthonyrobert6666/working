@@ -21,8 +21,8 @@
     <EntitySetMapping Name="OrderDetails">
       <EntityTypeMapping TypeName="PenStoreModel.OrderDetail">
         <MappingFragment StoreEntitySet="OrderDetail">
-          <ScalarProperty Name="OrderDetailID" ColumnName="OrderDetailID" />
           <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="OrderDetailID" ColumnName="OrderDetailID" />
           <ScalarProperty Name="ProductID" ColumnName="ProductID" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />

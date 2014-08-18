@@ -8,7 +8,7 @@ namespace PenParadise.Models
 {
     public partial class ShoppingCart
     {
-        PenStoreEntities _db;
+        PenStoreEntities _db = new PenStoreEntities();
         string ShoppingCartId { get; set; }
 
         public ShoppingCart(PenStoreEntities db)
@@ -94,6 +94,7 @@ namespace PenParadise.Models
             {
                 _db.Carts.Remove(cartItem);
             }
+            _db.SaveChanges();
 
         }
 
@@ -123,8 +124,6 @@ namespace PenParadise.Models
 
         public int CreateOrder(Order order)
         {
-            decimal orderTotal = 0;
-
             var cartItems = GetCartItems();
 
             // Iterate over the items in the cart, adding the order details for each
@@ -141,13 +140,13 @@ namespace PenParadise.Models
                 };
 
                 // Set the order total of the shopping cart
-                orderTotal += Convert.ToDecimal((item.Count * (decimal?)item.Product.Price));
+                //orderTotal += Convert.ToDecimal((item.Count * (decimal?)item.Product.Price));
 
                 _db.OrderDetails.Add(orderDetail);
+                _db.SaveChanges();
             }
 
             // Set the order's total to the orderTotal count
-            order.Total = Convert.ToInt32(orderTotal);
 
             // Empty the shopping cart
             EmptyCart();

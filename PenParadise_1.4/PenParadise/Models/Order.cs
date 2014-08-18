@@ -26,7 +26,7 @@ public partial class Order
     }
 
 
-    public string OrderID { get; set; }
+    public int OrderID { get; set; }
 
     public string UserNameID { get; set; }
 
@@ -40,9 +40,9 @@ public partial class Order
 
 
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
     public virtual User User { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
 }
 

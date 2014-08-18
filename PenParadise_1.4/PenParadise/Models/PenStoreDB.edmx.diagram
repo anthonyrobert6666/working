@@ -17,12 +17,12 @@
         <AssociationConnector Association="PenStoreModel.FK_Product_Branch" ManuallyRouted="false" />
         <AssociationConnector Association="PenStoreModel.FK_Category_ProductType" ManuallyRouted="false" />
         <AssociationConnector Association="PenStoreModel.FK_Product_Category" ManuallyRouted="false" />
-        <AssociationConnector Association="PenStoreModel.FK_OrderDetail_Order" ManuallyRouted="false" />
-        <AssociationConnector Association="PenStoreModel.FK_OrderDetail_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="PenStoreModel.FK_Orders_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="PenStoreModel.FK_Review_Product" ManuallyRouted="false" />
         <EntityTypeShape EntityType="PenStoreModel.Cart" Width="1.5" PointX="7.5" PointY="0.75" />
         <AssociationConnector Association="PenStoreModel.FK_Cart_Product" />
+        <AssociationConnector Association="PenStoreModel.FK_Orders_Customer" />
+        <AssociationConnector Association="PenStoreModel.FK_OrderDetail_Product" />
+        <AssociationConnector Association="PenStoreModel.FK_OrderDetail_Orders" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

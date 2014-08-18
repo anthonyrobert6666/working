@@ -22,26 +22,26 @@
     <Key>
       <PropertyRef Name="OrderDetailID" />
     </Key>
-    <Property Name="OrderDetailID" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
-    <Property Name="OrderID" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+    <Property Name="OrderDetailID" Type="Int32" Nullable="false" />
+    <Property Name="OrderID" Type="Int32" annotation:StoreGeneratedPattern="None" />
     <Property Name="ProductID" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
     <Property Name="Quantity" Type="Int32" />
     <Property Name="UnitPrice" Type="Double" />
-    <NavigationProperty Name="Order" Relationship="Self.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Orders" />
-    <NavigationProperty Name="Product" Relationship="Self.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+    <NavigationProperty Name="Product" Relationship="PenStoreModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+    <NavigationProperty Name="Order" Relationship="PenStoreModel.FK_OrderDetail_Orders" FromRole="OrderDetail" ToRole="Order" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
       <PropertyRef Name="OrderID" />
     </Key>
-    <Property Name="OrderID" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
-    <Property Name="UserNameID" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
-    <Property Name="OrderDate" Type="DateTime" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="UserNameID" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="true" />
+    <Property Name="OrderDate" Type="DateTime" Precision="0" />
     <Property Name="Total" Type="Double" />
-    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Orders" ToRole="OrderDetail" />
-    <NavigationProperty Name="User" Relationship="Self.FK_Orders_Customer" FromRole="Orders" ToRole="Users" />
     <Property Name="DeliveryAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="PhoneContact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="User" Relationship="PenStoreModel.FK_Orders_Customer" FromRole="Order" ToRole="User" />
+    <NavigationProperty Name="OrderDetails" Relationship="PenStoreModel.FK_OrderDetail_Orders" FromRole="Order" ToRole="OrderDetail" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -57,9 +57,9 @@
     <Property Name="images" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Branch" Relationship="Self.FK_Product_Branch" FromRole="Product" ToRole="Branch" />
     <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
-    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
     <NavigationProperty Name="Reviews" Relationship="Self.FK_Review_Product" FromRole="Product" ToRole="Review" />
     <NavigationProperty Name="Carts" Relationship="PenStoreModel.FK_Cart_Product" FromRole="Product" ToRole="Cart" />
+    <NavigationProperty Name="OrderDetails" Relationship="PenStoreModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
   </EntityType>
   <EntityType Name="ProductType">
     <Key>
@@ -103,7 +103,7 @@
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Customer" FromRole="Users" ToRole="Orders" />
+    <NavigationProperty Name="Orders" Relationship="PenStoreModel.FK_Orders_Customer" FromRole="User" ToRole="Order" />
   </EntityType>
   <Association Name="FK_Product_Branch">
     <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
@@ -141,42 +141,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_OrderDetail_Order">
-    <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
-    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Orders">
-        <PropertyRef Name="OrderID" />
-      </Principal>
-      <Dependent Role="OrderDetail">
-        <PropertyRef Name="OrderID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_OrderDetail_Product">
-    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="ProductID" />
-      </Principal>
-      <Dependent Role="OrderDetail">
-        <PropertyRef Name="ProductID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Orders_Customer">
-    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
-    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="UserNameID" />
-      </Principal>
-      <Dependent Role="Orders">
-        <PropertyRef Name="UserNameID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Review_Product">
     <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
     <End Role="Review" Type="Self.Review" Multiplicity="*" />
@@ -211,18 +175,6 @@
       <End Role="Category" EntitySet="Categories" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
-    <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
-      <End Role="Orders" EntitySet="Orders" />
-      <End Role="OrderDetail" EntitySet="OrderDetails" />
-    </AssociationSet>
-    <AssociationSet Name="FK_OrderDetail_Product" Association="Self.FK_OrderDetail_Product">
-      <End Role="Product" EntitySet="Products" />
-      <End Role="OrderDetail" EntitySet="OrderDetails" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Orders_Customer" Association="Self.FK_Orders_Customer">
-      <End Role="Users" EntitySet="Users" />
-      <End Role="Orders" EntitySet="Orders" />
-    </AssociationSet>
     <AssociationSet Name="FK_Review_Product" Association="Self.FK_Review_Product">
       <End Role="Product" EntitySet="Products" />
       <End Role="Review" EntitySet="Reviews" />
@@ -231,6 +183,18 @@
     <AssociationSet Name="FK_Cart_Product" Association="PenStoreModel.FK_Cart_Product">
       <End Role="Product" EntitySet="Products" />
       <End Role="Cart" EntitySet="Carts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Customer" Association="PenStoreModel.FK_Orders_Customer">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Product" Association="PenStoreModel.FK_OrderDetail_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Orders" Association="PenStoreModel.FK_OrderDetail_Orders">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Cart">
@@ -253,6 +217,42 @@
       </Principal>
       <Dependent Role="Cart">
         <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Customer">
+    <End Type="PenStoreModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PenStoreModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserNameID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserNameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Product">
+    <End Type="PenStoreModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="PenStoreModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Orders">
+    <End Type="PenStoreModel.Order" Role="Order" Multiplicity="0..1" />
+    <End Type="PenStoreModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -186,17 +186,23 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ProductType_Validate.cs" />
-    <Compile Include="Models\Product_Validate.cs" />
-    <Compile Include="Models\OrderDetail_Validate.cs" />
-    <Compile Include="Models\Order_Validate.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Order.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderDetail.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>PenStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductType.cs">
+      <DependentUpon>PenStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductType_Validate.cs" />
+    <Compile Include="Models\Product_Validate.cs" />
+    <Compile Include="Models\OrderDetail_Validate.cs" />
+    <Compile Include="Models\Order_Validate.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\PenStoreDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -212,25 +218,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PenStoreDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Product.cs">
-      <DependentUpon>PenStoreDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ProductType.cs">
-      <DependentUpon>PenStoreDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\Review.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Shipping_Information.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
+    <Compile Include="Models\Category_Validate.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Category_Validate.cs" />
     <Compile Include="Models\User_Validate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

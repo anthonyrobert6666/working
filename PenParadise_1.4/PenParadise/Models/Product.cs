@@ -21,11 +21,11 @@ public partial class Product
     public Product()
     {
 
-        this.OrderDetails = new HashSet<OrderDetail>();
-
         this.Reviews = new HashSet<Review>();
 
         this.Carts = new HashSet<Cart>();
+
+        this.OrderDetails = new HashSet<OrderDetail>();
 
     }
 
@@ -52,11 +52,11 @@ public partial class Product
 
     public virtual Category Category { get; set; }
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
     public virtual ICollection<Review> Reviews { get; set; }
 
     public virtual ICollection<Cart> Carts { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
 }
 

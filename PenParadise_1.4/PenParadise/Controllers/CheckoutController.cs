@@ -13,7 +13,7 @@ namespace PenParadise.Controllers
 {
     public class CheckoutController : Controller
     {
-        PenStoreEntities _db;
+       PenStoreEntities _db = new PenStoreEntities();
 
         //
         // GET: /Checkout/
@@ -45,23 +45,23 @@ namespace PenParadise.Controllers
         [HttpPost]
         public ActionResult AddressAndPayment(FormCollection values)
         {
+          
             var PhoneContact = values["PhoneContact"];
             var DeliveryAddress = values["DeliveryAddress"];
-            var autoID = (from q in _db.Orders
-                          select q).Count();
-            var autoIDdetail = (from q in _db.OrderDetails
-                          select q).Count();
             Order or = new Order();
             or.PhoneContact = PhoneContact;
             or.DeliveryAddress = DeliveryAddress;
-            or.OrderID = Convert.ToString(autoID+1);
-            or.UserNameID = Convert.ToString(Session["UserName"]);
+            string sessionname = Session["UserName"].ToString();
+            var userid = _db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
+            or.UserNameID = userid;
             or.OrderDate = DateTime.Now;
             var cart = ShoppingCart.GetCart(_db, this.HttpContext);
-            or.Total = Convert.ToDouble(cart.GetTotal());
+            decimal carttotal = cart.GetTotal();
+            or.Total = Convert.ToDouble(carttotal);
             _db.Orders.Add(or);
             _db.SaveChanges();
             cart.CreateOrder(or);
+            
             return RedirectToAction("Complete",
                        new { id = or.OrderID });
 
@@ -118,7 +118,7 @@ namespace PenParadise.Controllers
         {
             // Validate customer owns this order
             bool isValid = storeDB.Orders.Any(
-                o => o.OrderID == Convert.ToString(id));
+                o => o.OrderID == id);
 
             if (isValid)
             {
