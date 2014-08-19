@@ -47,7 +47,7 @@
                     <label>Keyword</label>
                     @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
                     
-                    <label>Category</label>
+                    <label>Product Type</label>
                     @Html.DropDownList("ProType", new SelectList(ViewBag.ProType))
                     
                     <div class="inline-field">
@@ -62,9 +62,6 @@
                     </div>
                     <input type="submit" class="search-submit" value="Search" />
 
-                    <p>
-                        <a href="#" class="bul">Advanced search</a><br />
-                    </p>
                 }
             </div>
         </div>

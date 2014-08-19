@@ -190,3 +190,8 @@ text-decoration: inherit;
 
 float:left;
 }
+.session-name 
+{
+    width: 60px;
+    overflow:hidden;
+}

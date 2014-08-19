@@ -45,7 +45,7 @@ namespace PenParadise.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(User model, string returnUrl)
+        public async Task<ActionResult> Login(Login model, string returnUrl)
         {
             PenStoreEntities penstore = new PenStoreEntities();
             string haspas = GetMD5HashData(model.Password);
@@ -92,12 +92,15 @@ namespace PenParadise.Controllers
         {
             PenStoreEntities db = new PenStoreEntities();
             bool user = db.Users.Any(u => u.UserName == userInfo.UserName);
+
             if (!user)
             {
-
                 User us = new User();
+                int count = (from p in db.Users
+                             select p).Count();
+                count++;
+                us.UserNameID = ("U0" + count).ToString();
                 us.Role = "EndUser";
-                us.UserNameID = "U024";
                 us.UserName = userInfo.UserName;
                 String haspas = GetMD5HashData(userInfo.Password);
                 us.Password = haspas;
@@ -106,9 +109,9 @@ namespace PenParadise.Controllers
                 us.Email = userInfo.Email;
                 us.Address = userInfo.Address;
                 us.Phone = userInfo.Phone;
-
                 db.Users.Add(us);
                 db.SaveChanges();
+                Session["UserName"] = us.UserName;
                 FormsAuthentication.SetAuthCookie(us.UserName, false);
                 return RedirectToAction("Index", "Store");
             }
@@ -162,24 +165,27 @@ namespace PenParadise.Controllers
         // GET: /Account/Manage
         public ActionResult Manage()
         {
-            PenStoreEntities db = new PenStoreEntities();
-            string sessionname = Session["UserName"].ToString();
-
-            var userid = db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
-            User user = db.Users.Find(userid);
-
-            if (user == null)
+            if (Session["UserName"] != null)
             {
-                return RedirectToAction("Login", "Account");
+                PenStoreEntities db = new PenStoreEntities();
+                string sessionname = Session["UserName"].ToString();
+
+                var userid = db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
+                User user = db.Users.Find(userid);
+
+                if (user == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                return View(user);
             }
-            return View(user);
+            return RedirectToAction("Login", "Account");
         }
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Manage([Bind(Include = "UserNameID,UserName,Password,Role,FullName,Birthday,Email,Address,Phone")] User user)
         {
-            user.Password = GetMD5HashData(user.Password);
             if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
@@ -188,6 +194,43 @@ namespace PenParadise.Controllers
             }
             return View(user);
         }
+        // GET: /Account/ChangePasswordPartial
+        public ActionResult ChangePasswordPartial()
+        {
+            if (Session["UserName"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ChangePasswordPartial(Changepassword ManageInfo)
+        {
+            string sessionname = Session["UserName"].ToString();
+            var userid = db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
+            User us = db.Users.Find(userid);
+            string haspas = GetMD5HashData(ManageInfo.OldPassword);
+            if (us.Password == haspas)
+            {
+                string newpassword = GetMD5HashData(ManageInfo.Password);
+                us.Password = newpassword;
+                db.Entry(us).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Complete", "Account");
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "Wrong password! try again!");
+            }
+            return View();
+        }
+        public ActionResult Complete()
+        {
+                return View();
+        }
+
         //
         // POST: /Account/Manage
         //[HttpPost]

@@ -16,9 +16,7 @@
             <th scope="col">
                 @Html.DisplayNameFor(model => model.ProductName)
             </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
+
             <th scope="col">
                 @Html.DisplayNameFor(model => model.Price)
             </th>
@@ -31,7 +29,7 @@
             <th scope="col">
                 @Html.DisplayNameFor(model => model.Category.CategoryName)
             </th>
-            <th scope="col">
+            <th scope="col" style="width:300px">
                 @Html.DisplayNameFor(model => model.images)
             </th>
             <th scope="col"></th>
@@ -44,9 +42,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)$
                 </td>
@@ -60,7 +56,7 @@
                     @Html.DisplayFor(modelItem => item.Category.CategoryName)
                 </td>
                 <td>
-                    <img src="~/Images/@Html.DisplayFor(modelItem => item.images)" alt="Sample Image" width="100px" height="100" />
+                    <img src="~/Images/@Html.DisplayFor(modelItem => item.images)" alt="Sample Image" width="300px" height="100" />
                     
                 </td>
                 <td>

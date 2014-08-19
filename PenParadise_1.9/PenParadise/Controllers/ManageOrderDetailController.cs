@@ -17,38 +17,50 @@ namespace PenParadise.Controllers
         // GET: /ManageOrderDetail/
         public ActionResult Index()
         {
-            var orderdetails = db.OrderDetails.Include(o => o.Order).Include(o => o.Product);
-            return View(orderdetails.ToList());
+            if (Session["UserName"] != null)
+            {
+                var orderdetails = db.OrderDetails.Include(o => o.Order).Include(o => o.Product);
+                return View(orderdetails.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageOrderDetail/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                OrderDetail orderdetail = db.OrderDetails.Find(id);
+                if (orderdetail == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(orderdetail);
             }
-            OrderDetail orderdetail = db.OrderDetails.Find(id);
-            if (orderdetail == null)
-            {
-                return HttpNotFound();
-            }
-            return View(orderdetail);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageOrderDetail/Create
         public ActionResult Create()
         {
-            ViewBag.OrderID = new SelectList(db.Orders, "OrderID", "UserNameID");
-            ViewBag.ProductID = new SelectList(db.Products, "ProductID", "CategoryID");
-            return View();
+            if (Session["UserName"] != null)
+            {
+                ViewBag.OrderID = new SelectList(db.Orders, "OrderID", "UserNameID");
+                ViewBag.ProductID = new SelectList(db.Products, "ProductID", "CategoryID");
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageOrderDetail/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="OrderDetailID,OrderID,ProductID,Quantity,UnitPrice")] OrderDetail orderdetail)
+        public ActionResult Create([Bind(Include = "OrderDetailID,OrderID,ProductID,Quantity,UnitPrice")] OrderDetail orderdetail)
         {
             if (ModelState.IsValid)
             {
@@ -65,18 +77,22 @@ namespace PenParadise.Controllers
         // GET: /ManageOrderDetail/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                OrderDetail orderdetail = db.OrderDetails.Find(id);
+                if (orderdetail == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.OrderID = new SelectList(db.Orders, "OrderID", "UserNameID", orderdetail.OrderID);
+                ViewBag.ProductID = new SelectList(db.Products, "ProductID", "CategoryID", orderdetail.ProductID);
+                return View(orderdetail);
             }
-            OrderDetail orderdetail = db.OrderDetails.Find(id);
-            if (orderdetail == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.OrderID = new SelectList(db.Orders, "OrderID", "UserNameID", orderdetail.OrderID);
-            ViewBag.ProductID = new SelectList(db.Products, "ProductID", "CategoryID", orderdetail.ProductID);
-            return View(orderdetail);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageOrderDetail/Edit/5
@@ -84,7 +100,7 @@ namespace PenParadise.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="OrderDetailID,OrderID,ProductID,Quantity,UnitPrice")] OrderDetail orderdetail)
+        public ActionResult Edit([Bind(Include = "OrderDetailID,OrderID,ProductID,Quantity,UnitPrice")] OrderDetail orderdetail)
         {
             if (ModelState.IsValid)
             {
@@ -100,16 +116,20 @@ namespace PenParadise.Controllers
         // GET: /ManageOrderDetail/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                OrderDetail orderdetail = db.OrderDetails.Find(id);
+                if (orderdetail == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(orderdetail);
             }
-            OrderDetail orderdetail = db.OrderDetails.Find(id);
-            if (orderdetail == null)
-            {
-                return HttpNotFound();
-            }
-            return View(orderdetail);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageOrderDetail/Delete/5

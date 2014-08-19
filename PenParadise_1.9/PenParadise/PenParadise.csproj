@@ -181,6 +181,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Branch.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
@@ -229,7 +230,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PenStoreDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Register.cs" />
     <Compile Include="Models\Review.cs">
       <DependentUpon>PenStoreDB.tt</DependentUpon>
     </Compile>
@@ -411,7 +411,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
@@ -473,6 +473,7 @@
     <Content Include="Views\Checkout\AddressAndPayment.cshtml" />
     <Content Include="Views\Checkout\Complete.cshtml" />
     <Content Include="Views\Checkout\Error.cshtml" />
+    <Content Include="Views\Account\Complete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

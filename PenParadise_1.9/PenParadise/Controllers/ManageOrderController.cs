@@ -15,39 +15,52 @@ namespace PenParadise.Controllers
         private PenStoreEntities db = new PenStoreEntities();
 
         // GET: /ManageOrder/
-        //public ActionResult Index()
-        //{
-        //  //  var orders = db.Orders.Include(o => o.User);
-        //   // return View(orders.ToList());
-        //}
+        public ActionResult Index()
+        {
+            if (Session["UserName"] != null)
+            {
+                var orders = db.Orders.Include(o => o.User);
+                return View(orders.ToList());
+            }
+            return RedirectToAction("Login", "Account");
+        }
 
         // GET: /ManageOrder/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Order order = db.Orders.Find(id);
+                if (order == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(order);
             }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            return View(order);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageOrder/Create
         public ActionResult Create()
         {
-            ViewBag.UserNameID = new SelectList(db.Users, "UserNameID", "UserName");
-            return View();
+            if (Session["UserName"] != null)
+            {
+                ViewBag.UserNameID = new SelectList(db.Users, "UserNameID", "UserName");
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageOrder/Create
-        
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="OrderID,UserNameID,OrderDate,Total")] Order order)
+        public ActionResult Create([Bind(Include = "OrderID,UserNameID,OrderDate,Total,DeliveryAddress,PhoneContact")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -61,19 +74,23 @@ namespace PenParadise.Controllers
         }
 
         // GET: /ManageOrder/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Order order = db.Orders.Find(id);
+                if (order == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.UserNameID = new SelectList(db.Users, "UserNameID", "UserName", order.UserNameID);
+                return View(order);
             }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.UserNameID = new SelectList(db.Users, "UserNameID", "UserName", order.UserNameID);
-            return View(order);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageOrder/Edit/5
@@ -81,7 +98,7 @@ namespace PenParadise.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="OrderID,UserNameID,OrderDate,Total")] Order order)
+        public ActionResult Edit([Bind(Include = "OrderID,UserNameID,OrderDate,Total,DeliveryAddress,PhoneContact")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -94,24 +111,28 @@ namespace PenParadise.Controllers
         }
 
         // GET: /ManageOrder/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Order order = db.Orders.Find(id);
+                if (order == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(order);
             }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            return View(order);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageOrder/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
             Order order = db.Orders.Find(id);
             db.Orders.Remove(order);

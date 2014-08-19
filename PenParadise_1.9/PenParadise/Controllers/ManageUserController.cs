@@ -13,47 +13,57 @@ namespace PenParadise.Controllers
 {
     public class ManageUserController : Controller
     {
+
         private PenStoreEntities db = new PenStoreEntities();
 
         // GET: /ManageUser/
         public ActionResult Index()
         {
-            if(Session["UserName"]!=null)
+            if (Session["UserName"] != null)
             {
-            var User = from p in db.Users
-                        select p;
+                var User = from p in db.Users
+                           select p;
                 return View(User);
             }
-            return RedirectToAction ("Login", "Account");
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageUser/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageUser/Create
         public ActionResult Create()
         {
-            return View();
+            if (Session["UserName"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageUser/Create
-   
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(User userInfo)
         {
+
             PenStoreEntities db = new PenStoreEntities();
             bool user = db.Users.Any(u => u.UserName == userInfo.UserName);
             if (!user)
@@ -80,6 +90,7 @@ namespace PenParadise.Controllers
                 ModelState.AddModelError("", "Error");
             }
             return View(user);
+
         }
         // Hash Password MD5
         private string GetMD5HashData(string data)
@@ -108,23 +119,27 @@ namespace PenParadise.Controllers
         // GET: /ManageUser/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageUser/Edit/5
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="UserNameID,UserName,Password,Role,FullName,Birthday,Email,Address,Phone")] User user)
+        public ActionResult Edit([Bind(Include = "UserNameID,UserName,Password,Role,FullName,Birthday,Email,Address,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -133,21 +148,26 @@ namespace PenParadise.Controllers
                 return RedirectToAction("Index");
             }
             return View(user);
+
         }
 
         // GET: /ManageUser/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageUser/Delete/5

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PenParadise.Models;
+using System.IO;
 
 namespace PenParadise.Controllers
 {
@@ -17,41 +18,55 @@ namespace PenParadise.Controllers
         // GET: /ManageProduct/
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Branch).Include(p => p.Category);
-            return View(products.ToList());
+            if (Session["UserName"] != null)
+            {
+                var products = db.Products.Include(p => p.Branch).Include(p => p.Category);
+                return View(products.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageProduct/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageProduct/Create
         public ActionResult Create()
         {
-            ViewBag.BranchID = new SelectList(db.Branches, "BranchID", "BranchName");
-            ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName");
-            return View();
+            if (Session["UserName"] != null)
+            {
+                ViewBag.BranchID = new SelectList(db.Branches, "BranchID", "BranchName");
+                ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName");
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
+
         // POST: /ManageProduct/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ProductID,CategoryID,ProductName,BranchID,Description,Price,Quantity,images")] Product product)
+        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,BranchID,Description,Price,Quantity")] Product product, HttpPostedFileBase File)
         {
             if (ModelState.IsValid)
             {
+                product.images = UploadImage(File);
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -62,28 +77,45 @@ namespace PenParadise.Controllers
             return View(product);
         }
 
+        public string UploadImage(HttpPostedFileBase File)
+        {
+            string filename = "";
+            if (File != null && File.ContentLength > 0)
+            {
+                filename = Path.GetFileName(File.FileName);
+                string url = Path.Combine(Server.MapPath("~/Images"), filename);
+                File.SaveAs(url);
+            }
+            return filename;
+        }
+
+
         // GET: /ManageProduct/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.BranchID = new SelectList(db.Branches, "BranchID", "BranchName", product.BranchID);
+                ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName", product.CategoryID);
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.BranchID = new SelectList(db.Branches, "BranchID", "BranchName", product.BranchID);
-            ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName", product.CategoryID);
-            return View(product);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageProduct/Edit/5
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ProductID,CategoryID,ProductName,BranchID,Description,Price,Quantity,images")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductID,CategoryID,ProductName,BranchID,Description,Price,Quantity,images")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -99,16 +131,20 @@ namespace PenParadise.Controllers
         // GET: /ManageProduct/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageProduct/Delete/5

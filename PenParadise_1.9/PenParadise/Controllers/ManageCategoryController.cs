@@ -17,37 +17,49 @@ namespace PenParadise.Controllers
         // GET: /ManageCategory/
         public ActionResult Index()
         {
-            var categories = db.Categories.Include(c => c.ProductType);
-            return View(categories.ToList());
+            if (Session["UserName"] != null)
+            {
+                var categories = db.Categories.Include(c => c.ProductType);
+                return View(categories.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageCategory/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Category category = db.Categories.Find(id);
+                if (category == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(category);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageCategory/Create
         public ActionResult Create()
         {
-            ViewBag.ProductTypeID = new SelectList(db.ProductTypes, "ProducTypeID", "ProductTypeName");
-            return View();
+            if (Session["UserName"] != null)
+            {
+                ViewBag.ProductTypeID = new SelectList(db.ProductTypes, "ProducTypeID", "ProductTypeName");
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageCategory/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="CategoryID,CategoryName,ProductTypeID")] Category category)
+        public ActionResult Create([Bind(Include = "CategoryID,CategoryName,ProductTypeID")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -63,24 +75,28 @@ namespace PenParadise.Controllers
         // GET: /ManageCategory/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Category category = db.Categories.Find(id);
+                if (category == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.ProductTypeID = new SelectList(db.ProductTypes, "ProducTypeID", "ProductTypeName", category.ProductTypeID);
+                return View(category);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ProductTypeID = new SelectList(db.ProductTypes, "ProducTypeID", "ProductTypeName", category.ProductTypeID);
-            return View(category);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageCategory/Edit/5
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="CategoryID,CategoryName,ProductTypeID")] Category category)
+        public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,ProductTypeID")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -95,16 +111,20 @@ namespace PenParadise.Controllers
         // GET: /ManageCategory/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Category category = db.Categories.Find(id);
+                if (category == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(category);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageCategory/Delete/5

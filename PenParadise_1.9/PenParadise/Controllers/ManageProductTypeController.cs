@@ -17,34 +17,46 @@ namespace PenParadise.Controllers
         // GET: /ManageProductType/
         public ActionResult Index()
         {
-            return View(db.ProductTypes.ToList());
+            if (Session["UserName"] != null)
+            {
+                return View(db.ProductTypes.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageProductType/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                ProductType producttype = db.ProductTypes.Find(id);
+                if (producttype == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(producttype);
             }
-            ProductType producttype = db.ProductTypes.Find(id);
-            if (producttype == null)
-            {
-                return HttpNotFound();
-            }
-            return View(producttype);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /ManageProductType/Create
         public ActionResult Create()
         {
-            return View();
+            if (Session["UserName"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageProductType/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ProducTypeID,ProductTypeName")] ProductType producttype)
+        public ActionResult Create([Bind(Include = "ProducTypeID,ProductTypeName")] ProductType producttype)
         {
             if (ModelState.IsValid)
             {
@@ -59,22 +71,26 @@ namespace PenParadise.Controllers
         // GET: /ManageProductType/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                ProductType producttype = db.ProductTypes.Find(id);
+                if (producttype == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(producttype);
             }
-            ProductType producttype = db.ProductTypes.Find(id);
-            if (producttype == null)
-            {
-                return HttpNotFound();
-            }
-            return View(producttype);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageProductType/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ProducTypeID,ProductTypeName")] ProductType producttype)
+        public ActionResult Edit([Bind(Include = "ProducTypeID,ProductTypeName")] ProductType producttype)
         {
             if (ModelState.IsValid)
             {
@@ -88,16 +104,20 @@ namespace PenParadise.Controllers
         // GET: /ManageProductType/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                ProductType producttype = db.ProductTypes.Find(id);
+                if (producttype == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(producttype);
             }
-            ProductType producttype = db.ProductTypes.Find(id);
-            if (producttype == null)
-            {
-                return HttpNotFound();
-            }
-            return View(producttype);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /ManageProductType/Delete/5
