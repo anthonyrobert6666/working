@@ -17,28 +17,40 @@ namespace PenParadise.Controllers
         // GET: /Branch/
         public ActionResult Index()
         {
-            return View(db.Branches.ToList());
+            if (Convert.ToString(Session["UserName"]) == "admin")
+            {
+                return View(db.Branches.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /Branch/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Branch branch = db.Branches.Find(id);
+                if (branch == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(branch);
             }
-            Branch branch = db.Branches.Find(id);
-            if (branch == null)
-            {
-                return HttpNotFound();
-            }
-            return View(branch);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /Branch/Create
         public ActionResult Create()
         {
-            return View();
+            if (Convert.ToString(Session["UserName"]) == "admin")
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /Branch/Create
@@ -46,7 +58,7 @@ namespace PenParadise.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="BranchID,BranchName")] Branch branch)
+        public ActionResult Create([Bind(Include = "BranchID,BranchName")] Branch branch)
         {
             if (ModelState.IsValid)
             {
@@ -61,16 +73,20 @@ namespace PenParadise.Controllers
         // GET: /Branch/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Branch branch = db.Branches.Find(id);
+                if (branch == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(branch);
             }
-            Branch branch = db.Branches.Find(id);
-            if (branch == null)
-            {
-                return HttpNotFound();
-            }
-            return View(branch);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /Branch/Edit/5
@@ -78,7 +94,7 @@ namespace PenParadise.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="BranchID,BranchName")] Branch branch)
+        public ActionResult Edit([Bind(Include = "BranchID,BranchName")] Branch branch)
         {
             if (ModelState.IsValid)
             {
@@ -92,16 +108,20 @@ namespace PenParadise.Controllers
         // GET: /Branch/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Branch branch = db.Branches.Find(id);
+                if (branch == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(branch);
             }
-            Branch branch = db.Branches.Find(id);
-            if (branch == null)
-            {
-                return HttpNotFound();
-            }
-            return View(branch);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /Branch/Delete/5

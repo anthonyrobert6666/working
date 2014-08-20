@@ -14,21 +14,30 @@ namespace PenParadise.Controllers
     public class CheckoutController : Controller
     {
         PenStoreEntities _db = new PenStoreEntities();
-
-        //
-        // GET: /Checkout/
-        PenStoreEntities storeDB = new PenStoreEntities();
-        const string PromoCode = "FREE";
-        //
         // GET: /Checkout/AddressAndPayment
         public ActionResult AddressAndPayment()
         {
+            var cart = ShoppingCart.GetCart(_db, this.HttpContext);
+            decimal carttotal = cart.GetTotal();
+            double total = Convert.ToDouble(carttotal);
             if (Session["UserName"] != null)
             {
-                return View();
+                if(total != 0)
+                {
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("EmCartMess", "Checkout");
+                }
             }
             return RedirectToAction("Login", "Account");
 
+        }
+
+        public ActionResult EmCartMess()
+        {
+            return View();
         }
         //[HttpPost]
         //public ActionResult AddressAndPayment(FormCollection values)
@@ -106,7 +115,7 @@ namespace PenParadise.Controllers
         public ActionResult Complete(int id)
         {
             // Validate customer owns this order
-            bool isValid = storeDB.Orders.Any(
+            bool isValid = _db.Orders.Any(
                 o => o.OrderID == id);
 
             if (isValid)

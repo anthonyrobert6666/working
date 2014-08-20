@@ -43,8 +43,8 @@ namespace PenParadise.Models
         public string Address { get; set; }
 
         [Required]
-        [StringLength(10)]
-        //[RegularExpression(@"[0-9]", ErrorMessage = "Invalid Phone Number!")]
+        [StringLength(10)]        
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "Invalid Phone Number!")]
         public string Phone { get; set; }
     }
 

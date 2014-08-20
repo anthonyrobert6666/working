@@ -57,7 +57,7 @@ namespace PenParadise.Models
 
         [Required]
         [StringLength(10)]
-        //[RegularExpression(@"[0-9]", ErrorMessage = "Invalid Phone Number!")]
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "Invalid Phone Number!")]
         public string Phone { get; set; }
     }
     public class Changepassword

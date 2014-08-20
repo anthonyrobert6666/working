@@ -17,7 +17,7 @@ namespace PenParadise.Controllers
         // GET: /ManageCategory/
         public ActionResult Index()
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 var categories = db.Categories.Include(c => c.ProductType);
                 return View(categories.ToList());
@@ -28,7 +28,7 @@ namespace PenParadise.Controllers
         // GET: /ManageCategory/Details/5
         public ActionResult Details(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 if (id == null)
                 {
@@ -47,7 +47,7 @@ namespace PenParadise.Controllers
         // GET: /ManageCategory/Create
         public ActionResult Create()
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 ViewBag.ProductTypeID = new SelectList(db.ProductTypes, "ProducTypeID", "ProductTypeName");
                 return View();
@@ -75,7 +75,7 @@ namespace PenParadise.Controllers
         // GET: /ManageCategory/Edit/5
         public ActionResult Edit(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 if (id == null)
                 {
@@ -111,7 +111,7 @@ namespace PenParadise.Controllers
         // GET: /ManageCategory/Delete/5
         public ActionResult Delete(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 if (id == null)
                 {

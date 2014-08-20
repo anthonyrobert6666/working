@@ -126,7 +126,8 @@ namespace PenParadise.Controllers
                 CartTotal = cart.GetTotal(),
                 CartCount = cart.GetCount(),
                 ItemCount = itemCount,
-                DeleteId = id
+                DeleteId = id,
+                CartsubTotal = 2
             };
             return Json(results);
         }

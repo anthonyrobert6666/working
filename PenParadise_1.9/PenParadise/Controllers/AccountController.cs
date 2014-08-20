@@ -45,7 +45,7 @@ namespace PenParadise.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(Login model, string returnUrl)
+        public ActionResult Login(Login model, string returnUrl)
         {
             PenStoreEntities penstore = new PenStoreEntities();
             string haspas = GetMD5HashData(model.Password);
@@ -60,7 +60,7 @@ namespace PenParadise.Controllers
                 }
                 else
                 {
-                    Session["UserName"] = model.UserName;
+                    Session["UserName"] = "admin";
                     return RedirectToAction("Index", "ManageUser");
                 }
 
@@ -392,10 +392,37 @@ namespace PenParadise.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            var cart = ShoppingCart.GetCart(db, this.HttpContext);
+            decimal carttotal = cart.GetTotal();
+            double total = Convert.ToDouble(carttotal);
+            if (total != 0)
+            {
+               return RedirectToAction("Checkcart", "Account");
+            }
             Session.RemoveAll();
             return RedirectToAction("Index", "Store");
+            
         }
 
+        // GET: /Account/Checkcart
+        public ActionResult Checkcart()
+        {
+            return View();
+        }
+
+        //
+        // Post: /Account/LogoffComplete
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogoffComplete()
+        {
+            var cart = ShoppingCart.GetCart(db, this.HttpContext);
+            cart.EmptyCart();
+            Session.RemoveAll();
+            return RedirectToAction("Index", "Store");
+
+        }
         //
         // GET: /Account/ExternalLoginFailure
         //[AllowAnonymous]

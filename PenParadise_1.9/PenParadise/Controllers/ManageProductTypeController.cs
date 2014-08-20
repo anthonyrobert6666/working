@@ -17,7 +17,7 @@ namespace PenParadise.Controllers
         // GET: /ManageProductType/
         public ActionResult Index()
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 return View(db.ProductTypes.ToList());
             }
@@ -27,7 +27,7 @@ namespace PenParadise.Controllers
         // GET: /ManageProductType/Details/5
         public ActionResult Details(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 if (id == null)
                 {
@@ -46,7 +46,7 @@ namespace PenParadise.Controllers
         // GET: /ManageProductType/Create
         public ActionResult Create()
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 return View();
             }
@@ -71,7 +71,7 @@ namespace PenParadise.Controllers
         // GET: /ManageProductType/Edit/5
         public ActionResult Edit(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 if (id == null)
                 {
@@ -104,7 +104,7 @@ namespace PenParadise.Controllers
         // GET: /ManageProductType/Delete/5
         public ActionResult Delete(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 if (id == null)
                 {

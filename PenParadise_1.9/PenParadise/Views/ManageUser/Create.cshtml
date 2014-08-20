@@ -8,6 +8,7 @@
 <h2>Create</h2>
 
 
+
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -60,8 +61,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Birthday, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Birthday)
-                @Html.ValidationMessageFor(model => model.Birthday)
+                <input type="text" id="datepicker">
             </div>
         </div>
 

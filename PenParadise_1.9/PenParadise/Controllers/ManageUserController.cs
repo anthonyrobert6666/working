@@ -19,7 +19,7 @@ namespace PenParadise.Controllers
         // GET: /ManageUser/
         public ActionResult Index()
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 var User = from p in db.Users
                            select p;
@@ -31,7 +31,7 @@ namespace PenParadise.Controllers
         // GET: /ManageUser/Details/5
         public ActionResult Details(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) =="admin")
             {
                 if (id == null)
                 {
@@ -50,7 +50,7 @@ namespace PenParadise.Controllers
         // GET: /ManageUser/Create
         public ActionResult Create()
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 return View();
             }
@@ -119,7 +119,7 @@ namespace PenParadise.Controllers
         // GET: /ManageUser/Edit/5
         public ActionResult Edit(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 if (id == null)
                 {
@@ -154,7 +154,7 @@ namespace PenParadise.Controllers
         // GET: /ManageUser/Delete/5
         public ActionResult Delete(string id)
         {
-            if (Session["UserName"] != null)
+            if (Convert.ToString(Session["UserName"]) == "admin")
             {
                 if (id == null)
                 {

@@ -278,6 +278,7 @@
     <Content Include="Content\css1\images\small7.jpg" />
     <Content Include="Content\css1\login.css" />
     <Content Include="Content\css1\style.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
@@ -389,6 +390,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\jquery-1.4.1.min.js" />
     <Content Include="Scripts\js\jquery-func.js" />
+    <Content Include="Scripts\js\jquery-ui.js" />
     <Content Include="Scripts\js\jquery.jcarousel.pack.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -474,6 +476,9 @@
     <Content Include="Views\Checkout\Complete.cshtml" />
     <Content Include="Views\Checkout\Error.cshtml" />
     <Content Include="Views\Account\Complete.cshtml" />
+    <Content Include="Views\Checkout\ErrosMessage.cshtml" />
+    <Content Include="Views\Checkout\EmCartMess.cshtml" />
+    <Content Include="Views\Account\Checkcart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

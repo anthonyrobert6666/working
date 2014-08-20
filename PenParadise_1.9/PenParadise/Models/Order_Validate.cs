@@ -24,7 +24,16 @@ namespace PenParadise.Models
         public string OrderDate { get; set; }
 
         [Required]
+        public string DeliveryAddress { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "Invalid Phone Number!")]
+        public string PhoneContact { get; set; }
+
+        [Required]
         public Nullable<int> Total { get; set; }
+
         [Required]
         public virtual User User { get; set; }
     }

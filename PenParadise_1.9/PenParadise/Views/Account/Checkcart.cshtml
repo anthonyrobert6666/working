@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_Baseview.cshtml";
+}
+
+<h2>Please check out your cart before Log Off </h2>
+@using (Html.BeginForm("LogoffComplete", "Account", FormMethod.Post, new { id = "logoffForm"}))
+{
+    @Html.AntiForgeryToken()
+    <p>
+        @Html.ActionLink("<< Checkout!", "AddressAndPayment", "Checkout") | 
+        <a href="javascript:document.getElementById('logoffForm').submit()">No I want to Log Off >></a>
+    </p>
+}

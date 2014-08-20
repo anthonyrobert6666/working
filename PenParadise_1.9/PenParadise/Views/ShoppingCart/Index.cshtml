@@ -45,6 +45,7 @@
                         }
                         $('#update-message').text(data.Message);
                         $('#cart-total').text(data.CartTotal);
+                        $('#cart-subtotal').text(data.ItemCount);
                         $('#cart-status').text('Cart (' + data.CartCount + ')');
                     });
             }
@@ -100,9 +101,9 @@
                       style = "width:30px; text-align:right;"
                   })
                     </td>
-                    <td>
-                        @total $
-                    </td>
+                  
+                        <td id="cart-subtotal">@total$</td>
+                
                     <td>
                         <a href="#" class="RefreshQuantity" data-id="@item.RecordId"
                            txt-id="CartItems_@(ix)__Count">Edit</a>|
@@ -144,16 +145,7 @@
                         <option value="">-- Pencil --</option>
                         <option value="">-- Accessories --</option>
                     </select>
-                    <div class="inline-field">
-                        <label>Price</label>
-                        <select class="field small-field">
-                            <option value="">$10</option>
-                        </select>
-                        <label>to:</label>
-                        <select class="field small-field">
-                            <option value="">$50</option>
-                        </select>
-                    </div>
+
                     <input type="submit" class="search-submit" value="Search" />
 
                 }
