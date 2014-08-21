@@ -47,15 +47,12 @@ namespace PenParadise.Models
         public string Birthday { get; set; }
 
         [Required]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",
-            ErrorMessage = "Email is is not valid.")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required]
         [StringLength(50, MinimumLength = 4)]
         public string Address { get; set; }
 
-        [Required]
         [StringLength(10)]
         [RegularExpression("^[0-9]{10}$", ErrorMessage = "Invalid Phone Number!")]
         public string Phone { get; set; }

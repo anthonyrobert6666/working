@@ -92,7 +92,6 @@ namespace PenParadise.Controllers
         {
             PenStoreEntities db = new PenStoreEntities();
             bool user = db.Users.Any(u => u.UserName == userInfo.UserName);
-
             if (!user)
             {
                 User us = new User();
@@ -117,7 +116,7 @@ namespace PenParadise.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Error");
+                ViewData["Error"] = "UserName is exist";
             }
             return View();
         }
@@ -241,7 +240,18 @@ namespace PenParadise.Controllers
         {
             return View();
         }
+        public JsonResult OrderCustomer()
+        {
+              string sessionname = Session["UserName"].ToString();
 
+                var userid = db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
+            var result = from r in db.Orders
+                         join p in db.OrderDetails on r.OrderID equals p.OrderID
+                         join d in db.Products on p.ProductID equals d.ProductID
+                         where r.UserNameID==userid
+                         select new {d.ProductID,d.ProductName,p.Quantity,p.UnitPrice,r.OrderDate,r.DeliveryAddress,r.PhoneContact};
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         //
         // POST: /Account/Manage
         //[HttpPost]

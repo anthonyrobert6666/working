@@ -87,7 +87,7 @@ namespace PenParadise.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Error");
+                ViewData["Error"] = "UserName is exist";
             }
             return View(user);
 

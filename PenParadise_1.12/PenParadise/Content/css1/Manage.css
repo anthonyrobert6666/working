@@ -13,3 +13,10 @@
     color: white;
     float: right;
 }
+.your-oders {
+    margin-left: 75px;
+}
+.no-oders {
+    color: red;
+    font-size: 20px;
+}
