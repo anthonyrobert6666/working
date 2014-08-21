@@ -1,0 +1,15 @@
+﻿.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    margin-left: 160px;
+}
+.ui-datepicker-header.ui-widget-header.ui-helper-clearfix.ui-corner-all {
+    background-color: rgb(156, 2, 2);
+    text-align: center;
+}
+.ui-datepicker-prev.ui-corner-all {
+    color: white;
+    float: left;
+}
+.ui-datepicker-next.ui-corner-all {
+    color: white;
+    float: right;
+}
