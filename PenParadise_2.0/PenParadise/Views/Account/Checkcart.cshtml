@@ -1,0 +1,128 @@
+﻿@{
+    Layout = "~/Views/Shared/_Baseview.cshtml";
+}
+
+<!-- Main -->
+<div id="main">
+    <div class="cl">&nbsp;</div>
+    <!-- Content -->
+    <div id="content">
+        <h2>Please check out your cart before Log Off </h2>
+        @using (Html.BeginForm("LogoffComplete", "Account", FormMethod.Post, new { id = "logoffForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <p>
+                @Html.ActionLink("<< Checkout!", "AddressAndPayment", "Checkout") |
+                <a href="javascript:document.getElementById('logoffForm').submit()">No I want to Log Off >></a>
+            </p>
+        }
+    </div>
+    <!-- End Content -->
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <!-- Search -->
+        <div class="box search">
+            <h2>Search by <span></span></h2>
+            <div class="box-content">
+                @using (Html.BeginForm("AllProduct", "Store"))
+                {
+                    <label>Keyword</label>
+                    @Html.TextBox("SearchString")
+
+                    <label>Product Type</label>
+                    <select class="field">
+                        <option value="">-- Select Product Type --</option>
+                        <option value="">-- Pen --</option>
+                        <option value="">-- Pencil --</option>
+                        <option value="">-- Accessories --</option>
+                    </select>
+                    <input type="submit" class="search-submit" value="Search" />
+
+                }
+            </div>
+        </div>
+        <!-- End Search -->
+        <!-- Categories -->
+        <div class="box categories">
+            <h2>Categories <span></span></h2>
+            <div class="box-content">
+                @{ Html.RenderAction("CategoryList"); }
+            </div>
+        </div>
+        <!-- End Categories -->
+    </div>
+    <!-- End Sidebar -->
+    <div class="cl">&nbsp;</div>
+</div>
+<!-- End Main -->
+<!-- Side Full -->
+<div class="side-full">
+    <!-- More Products -->
+    <div class="more-products">
+        <div class="more-products-holder">
+            <ul>
+                <li><a href="#"><img src="~/Images/Footer/a1.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/a2.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/a3.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/a4.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/a5.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b1.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b2.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b3.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b4.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/b5.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/c1.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/c2.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/c3.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/c5.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/d1.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/d2.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="~/Images/Footer/d3.jpg" alt="" /></a></li>
+                <li class="last"><a href="#"><img src="~/Images/Footer/c4.jpg" alt="" /></a></li>
+            </ul>
+        </div>
+        <div class="more-nav"> <a href="#" class="prev">previous</a> <a href="#" class="next">next</a> </div>
+    </div>
+    <!-- End More Products -->
+    <!-- Text Cols -->
+    <div class="cols">
+        <div class="cl">&nbsp;</div>
+        <div class="col">
+            <h3 class="ico ico1">Fountain Pen</h3>
+            <p>
+                A Fountain Pen puts ink to paper using a feeder system and metal nib.
+
+                Fountain Pens utilize a cartridge, converter or piston filler system.
+
+                Nib materials include gold, steel, titanium and palladium.
+            </p>
+            <p class="more"><a href="/Store/ListByCategory/C001" class="bul">View Details</a></p>
+        </div>
+        <div class="col">
+            <h3 class="ico ico2">Roller Ball Pen</h3>
+            <p>
+                Roller Ball pens use a water based ink for a smooth writing experience.
+
+                A Roller Ball pen is great for creating fine, dark lines but can smear when applied to a glossy surface.
+            </p>
+            <p class="more"><a href="/Store/ListByCategory/C002" class="bul">View Details</a></p>
+        </div>
+        <div class="col">
+            <h3 class="ico ico3">Ball Point Pen</h3>
+            <p>
+                Ballpoint Pens use petroleum-based ink which helps create reliable and smear-free writing.
+
+                Ballpoint Pens typically utilize a twist style mechanism.
+            </p>
+            <p class="more"><a href="/Store/ListByCategory/C003" class="bul">View Details</a></p>
+        </div>
+        <div class="col col-last">
+            <h3 class="ico ico4">Engravable</h3>
+            <p>Experience the beauty and variety of the Montblanc creations, renowned for its highest quality, tradition and European craftsmanship. Paradise Pen sells a comprehensive range of Montblanc Writing Instruments, Montblanc refills, and Montblanc Leather.</p>
+            <p class="more"><a href="/Store/ListByCategory/C008" class="bul">View Details</a></p>
+        </div>
+        <div class="cl">&nbsp;</div>
+    </div>
+    <!-- End Text Cols -->
+</div>
+<!-- End Side Full -->

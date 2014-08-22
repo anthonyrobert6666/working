@@ -1,0 +1,52 @@
+﻿@model IEnumerable<PenParadise.Models.OrderDetail>
+@{
+    ViewBag.Title = "Detail Orders";
+    Layout = "~/Views/Shared/_Baseview.cshtml";
+}
+@Styles.Render("~/Content/css")
+@if (Model.Count() == 0)
+{
+    <p>No Data</p>
+}
+else
+{
+    <h4>Your order details</h4>
+    <table class="table">
+        <tr>
+            <th>
+               @Html.DisplayNameFor(model => model.Product.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity) 
+            </th>
+            <th>
+               Unit @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="/Store/Details/@item.ProductID">
+                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                        </a>
+</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+            </tr>
+        }
+
+    </table>
+    @section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@section css {
+    @Styles.Render("~/Content/css1/login.css")
+}
+}

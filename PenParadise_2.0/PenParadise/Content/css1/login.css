@@ -1,0 +1,11 @@
+﻿body {
+}
+#logo > a {
+    margin: -20px 0 -1px -6px;
+}
+.session-name 
+{
+    width: 85px;
+    overflow:hidden;
+}
+

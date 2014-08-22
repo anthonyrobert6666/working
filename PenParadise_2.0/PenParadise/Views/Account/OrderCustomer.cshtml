@@ -1,0 +1,53 @@
+﻿@model IEnumerable<PenParadise.Models.Order>
+@if (Model.Count() == 0)
+{
+
+    <div class="no-orders">Your orders is empty! Thanks!</div>
+
+}
+else
+{ 
+<table class="table">
+    <tr>
+        <th>
+            Details
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeliveryAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneContact)
+        </th>
+    </tr>
+
+    @{int ix = 1;}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Order "+ @ix,"Detail_Orders",new { id = item.OrderID} , htmlAttributes: new { id = "OrderDetails" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneContact)
+            </td>
+        </tr>
+        ix++;
+    }
+
+</table>
+}

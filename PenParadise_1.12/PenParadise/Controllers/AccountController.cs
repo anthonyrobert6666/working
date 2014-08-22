@@ -39,7 +39,6 @@ namespace PenParadise.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
         //
         // POST: /Account/Login
         [HttpPost]
@@ -240,17 +239,38 @@ namespace PenParadise.Controllers
         {
             return View();
         }
-        public JsonResult OrderCustomer()
-        {
-              string sessionname = Session["UserName"].ToString();
+        //public JsonResult OrderCustomer()
+        //{
+        //      string sessionname = Session["UserName"].ToString();
 
-                var userid = db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
+        //        var userid = db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
+        //    var result = from r in db.Orders
+        //                 join p in db.OrderDetails on r.OrderID equals p.OrderID
+        //                 join d in db.Products on p.ProductID equals d.ProductID
+        //                 where r.UserNameID==userid
+        //                 select new {d.ProductID,d.ProductName,p.Quantity,p.UnitPrice,r.OrderDate,r.DeliveryAddress,r.PhoneContact};
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult OrderCustomer()
+        {
+            string sessionname = Session["UserName"].ToString();
+
+            var userid = db.Users.SingleOrDefault(t => t.UserName == sessionname).UserNameID;
             var result = from r in db.Orders
                          join p in db.OrderDetails on r.OrderID equals p.OrderID
                          join d in db.Products on p.ProductID equals d.ProductID
-                         where r.UserNameID==userid
-                         select new {d.ProductID,d.ProductName,p.Quantity,p.UnitPrice,r.OrderDate,r.DeliveryAddress,r.PhoneContact};
-            return Json(result, JsonRequestBehavior.AllowGet);
+                         where r.UserNameID == userid
+                         select new { d.ProductID, d.ProductName, p.Quantity, p.UnitPrice, r.OrderDate, r.DeliveryAddress, r.PhoneContact };
+          //  return Json(result, JsonRequestBehavior.AllowGet);
+            List<Order> list = db.Orders.Where(x => x.UserNameID == userid).ToList();
+            return View(list);
+        }
+        public ActionResult Detail_Orders(int id)
+        {
+            List<OrderDetail> list = db.OrderDetails.Where(x => x.OrderID == id).ToList();
+            return View(list);
+                    
         }
         //
         // POST: /Account/Manage

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<PenParadise.Models.Product>
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Baseview.cshtml";
+}
+<div id="main">
+    <div class="cl">&nbsp;</div>
+    <!-- Content -->
+    <div id="content">
+        <div class="products-detail">
+            @foreach(var item in Model)
+            { 
+            <div class="cl">&nbsp;</div>
+                <div id="left-image">
+                    <img src="~/Images/@Html.DisplayFor(modelItem => item.images)" style="display: block;">
+                </div>
+                <br />
+                <br />
+                <div id="right-productdetail">
+                    <div class="product-name">
+                        <h1>@Html.DisplayFor(modelItem => item.ProductName)</h1>
+                    </div>
+                    <br />
+                    <div>
+                        <h2>Brand: @Html.DisplayFor(modelItem => item.Branch.BranchName)</h2>
+                    </div>
+                    <br />
+                    <div class="price-box">
+                        <span class="price">@Html.DisplayFor(modelItem => item.Price)$</span>
+                        <br />
+                        <span>Only <strong>@Html.DisplayFor(modelItem => item.Quantity)</strong> left</span>
+                    </div>
+                    <br />
+                    <div class="short-description">
+                        <div class="std">
+                            <ul class="product-tabs">
+                                <h2><li id="product_tabs_description" class="first active"><a href="javascript:void(0)">Description</a></li></h2>
+                            </ul>
+                            <br />
+                            <div class="product-tabs-content" id="product_tabs_mdescription_contents">
+                                <h2>@Html.DisplayFor(modelItem => item.Description)</h2>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="addcart">@Html.ActionLink("Add to cart", "AddToCart", "ShoppingCart", new { id = item.ProductID }, "")</div>
+                </div>
+            <div class="cl">&nbsp;</div>
+            }
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div class="box search">
+            <h2>Search by <span></span></h2>
+            <div class="box-content">
+                <form action="#" method="post">
+                    <label>Keyword</label>
+                    <input type="text" class="field" />
+                    <label>Product Type</label>
+                    <select class="field">
+                        <option value="">-- Select Product Type --</option>
+                        <option value="">-- Pen --</option>
+                        <option value="">-- Pencil --</option>
+                        <option value="">-- Accessories --</option>
+                    </select>
+                    
+                    <input type="submit" class="search-submit" value="Search" />
+                </form>
+            </div>
+        </div>
+        <div class="box categories">
+            <h2>Categories <span></span></h2>
+            <div class="box-content">
+                @{ Html.RenderAction("CategoryList"); }
+            </div>
+        </div>
+    </div>
+
+    <div class="cl">&nbsp;</div>
+</div>
+
+
+    @*<div class="add-to-box">
+            <div class="add-to-cart">
+                <div class="quanitybox">
+                    <div class="label-qty clearfix"><label for="qty">Quantity:</label></div>
+                    <input type="button" class="quantity_box_button_down" style="visibility: hidden;">
+                    <input type="text" name="qty" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty">
+                    <input type="button" class="quantity_box_button_up" >
+                </div>
+
+            </div>
+            <div class="row clearfix">
+
+                <div class="left product-buttons">
+
+                    <div class="button product-buttons-row clearfix product-buttons-row-cart" >
+                        <div class="buttons-cart btn-cart" id="button-cart"></div>
+                        <div class="text">Add to Cart</div>
+                    </div>
+                </div>
+            </div>
+        </div>*@

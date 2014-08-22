@@ -1,0 +1,56 @@
+﻿@model PenParadise.Models.Order
+
+@{
+    ViewBag.Title = "AddressAndPayment";
+    Layout = "~/Views/Shared/_Baseview.cshtml";
+}
+@Styles.Render("~/Content/css")
+<h2>AddressAndPayment</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.OrderID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DeliveryAddress, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.DeliveryAddress, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DeliveryAddress)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneContact, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.PhoneContact, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PhoneContact)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit Order" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+               @Html.ActionLink("Back to List", "Index", "ShoppingCart")
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@section css {
+    @Styles.Render("~/Content/css1/login.css")
+}
